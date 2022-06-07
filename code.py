@@ -1,1 +1,1 @@
-print("Hello World!")
+import i2c_power_test
