@@ -1,69 +1,69 @@
-notes about dust sensor system
-2022-04-20 mew@mew.cx
+notes about dust sensor system -- mew@mew.cx
 
-backplane
-        SDA     SCL     GND     5V      3v3     SCK     MOSI   Description
-fesp32  grn     yel     ora     red     brn     vio     gry    Feather ESP32-S2
-htu     red     brn     ora     -       yel     -       -      humidity
-rtc     blu     vio     wht     blk     -       -       -      realtime clock
-mpl     grn     yel     red     brn     -       -       -      barometer
-sps30   wht     vio     blk&grn red     -       -       -      particle
-led     -       -       wht     red     -       brn     blk    dotstar strip
+backplane:
+         | SDA     | SCL     | GND     | 5v0     | 3v3     | SCK     | MOSI    | Description
+---------+---------+---------+---------+---------+---------+---------+---------+-------------+------
+fesp32   | grn     | yel     | ora     | red     | brn     | vio     | gry     | Feather ESP32-S2
+htu21a   | red     | brn     | ora     | -       | yel     | -       | -       | humidity sensor
+ds1307   | blu     | vio     | wht     | blk     | -       | -       | -       | realtime clock
+mpl311a2 | grn     | yel     | red     | brn     | -       | -       | -       | barometer sensor
+sps30    | wht     | vio     | blk&grn | red     | -       | -       | -       | particle sensor
+ledstrip | -       | -       | wht     | red     | -       | brn     | blk     | dotstar LED strip
+mpm3610  | -       | -       | none    | none    | -       | -       | -       | 5v0 power regulator
 
 
-Main processor : Feather ESP32-S2, proplabel 3058
+fesp32 : Feather ESP32-S2 (rev B) microcontroller, proplabel 3058
 https://www.adafruit.com/product/5000
-running CircuitPython 7.2.5
 3       brown   3v3 out
-4       orange  gnd
-11      violet  sck (spi)
-12      gray    mosi (spi)
-17      green   sda (i2c)
-18      yellow  scl (i2c)
-26      red     vbus in (5v0)
+4       orange  GND
+11      violet  SCK  (spi)
+12      gray    MOSI (spi)
+17      green   SDA  (i2c)
+18      yellow  SCL  (i2c)
+26      red     VBUS (5v0 in)
+
+htu21d : humidity & temperature sensor, I2C id 0x??
+similar to https://www.adafruit.com/product/3515
+        brn     SCL
+        red     SDA
+        ora     GND
+        yel     3v3 in
+
+ds1307 : real-time clock, I2C id 0x68
+similar to https://www.sparkfun.com/products/12708
+1       blu     SDA
+2       vio     SCL
+3       gry     N/C
+4       wht     GND
+5       blk     5v0 in
+
+mpl3115a2 : barometer, altimeter & temperature sensor, I2C id 0x??
+https://www.adafruit.com/product/1893
+1       brn     5v0 in
+2       red     GND
+3       ora     N/C (??)
+4       -       N/C (int2)
+5       -       N/C (int1)
+6       yel     SCL
+7       grn     SDA
+
+sps30 : particle sensor, I2C id 0x69, proplabel 14169, runs at 100kbps
+https://www.sparkfun.com/products/15103
+1       red     5v0 in
+2       wht     SDA
+3       vio     SCL
+4       grn     GND (iosel)
+5       blk     GND
+
+ledstrip : string of 4 apa102 RGB LEDs
+1       red     5v0 in
+2       brn     CI
+3       blk     DI
+4       wht     GND
 
 mpm3610 : 5v0 buck regulator
 https://www.adafruit.com/product/4739
-        gnd
-        5vout
-        vin
-        en
-
-sps30 : id 0x69, proplabel 14169, runs at 100kbps
-https://www.sparkfun.com/products/15103
-1       red     5v
-2       wht     sda
-3       vio     scl
-4       grn     gnd (iosel)
-5       blk     gnd
-
-mpl3115a2 : barometer
-https://www.adafruit.com/product/1893
-1       brn     5vin
-2       red     gnd
-3       ora     nc (3vout)
-4       -       int2
-5       -       int1
-6       yel     scl
-7       grn     sda
-
-htu21d : humidity
-similar to https://www.adafruit.com/product/3515
-        brn     scl
-        red     sda
-        ora     gnd
-        yel     3v3
-
-ds1307 : rtc, id 0x68
-similar to https://www.sparkfun.com/products/12708
-1       blu     sda
-2       vio     scl
-3       gry     nc (sqw)
-4       wht     gnd
-5       blk     5v
-
-ledstrip : apa102
-1       red     5v
-2       brn     ci
-3       blk     di
-4       wht     gnd
+1       none    GND
+2       none    5v0 out
+3       none    Vin (12v in)
+4       none    ENABLE
