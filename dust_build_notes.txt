@@ -3,16 +3,16 @@ notes about dust sensor system -- mew@mew.cx
 backplane:
          | SDA     | SCL     | GND     | 5v0     | 3v3     | SCK     | MOSI    | Description
 ---------+---------+---------+---------+---------+---------+---------+---------+-------------+------
-fesp32   | grn     | yel     | ora     | red     | brn     | vio     | gry     | Feather ESP32-S2
-htu21a   | red     | brn     | ora     | -       | yel     | -       | -       | humidity sensor
-ds1307   | blu     | vio     | wht     | blk     | -       | -       | -       | realtime clock
-mpl311a2 | grn     | yel     | red     | brn     | -       | -       | -       | barometer sensor
-sps30    | wht     | vio     | blk&grn | red     | -       | -       | -       | particle sensor
+FESP32   | grn     | yel     | ora     | red     | brn     | vio     | gry     | Feather ESP32-S2
+HTU21D   | red     | brn     | ora     | -       | yel     | -       | -       | humidity sensor
+DS1307   | blu     | vio     | wht     | blk     | -       | -       | -       | realtime clock
+MPL311A2 | grn     | yel     | red     | brn     | -       | -       | -       | barometer sensor
+SPS30    | wht     | vio     | blk&grn | red     | -       | -       | -       | particle sensor
 ledstrip | -       | -       | wht     | red     | -       | brn     | blk     | dotstar LED strip
 mpm3610  | -       | -       | none    | none    | -       | -       | -       | 5v0 power regulator
 
 
-fesp32 : Feather ESP32-S2 (rev B) microcontroller, proplabel 3058
+FESP32 : Feather ESP32-S2 (rev B) microcontroller, proplabel 3058
 https://www.adafruit.com/product/5000
 3       brown   3v3 out
 4       orange  GND
@@ -22,14 +22,14 @@ https://www.adafruit.com/product/5000
 18      yellow  SCL  (i2c)
 26      red     VBUS (5v0 in)
 
-htu21d : humidity & temperature sensor, I2C id 0x??
+HTU21D : humidity & temperature sensor, I2C id 0x40
 similar to https://www.adafruit.com/product/3515
         brn     SCL
         red     SDA
         ora     GND
         yel     3v3 in
 
-ds1307 : real-time clock, I2C id 0x68
+DS1307 : real-time clock, I2C id 0x68
 similar to https://www.sparkfun.com/products/12708
 1       blu     SDA
 2       vio     SCL
@@ -37,17 +37,17 @@ similar to https://www.sparkfun.com/products/12708
 4       wht     GND
 5       blk     5v0 in
 
-mpl3115a2 : barometer, altimeter & temperature sensor, I2C id 0x??
+MPL3115A2 : barometer, altimeter & temperature sensor, I2C id 0x60
 https://www.adafruit.com/product/1893
 1       brn     5v0 in
 2       red     GND
-3       ora     N/C (??)
+3       ora     N/C (3v3 out)
 4       -       N/C (int2)
 5       -       N/C (int1)
 6       yel     SCL
 7       grn     SDA
 
-sps30 : particle sensor, I2C id 0x69, proplabel 14169, runs at 100kbps
+SPS30 : particle sensor, proplabel 14169, I2C id 0x69 @ 100kbps
 https://www.sparkfun.com/products/15103
 1       red     5v0 in
 2       wht     SDA
@@ -67,3 +67,8 @@ https://www.adafruit.com/product/4739
 2       none    5v0 out
 3       none    Vin (12v in)
 4       none    ENABLE
+
+LC709203 : LiPo battery monitor, I2C id 0x0b
+(on the FESP32 board, but not used)
+
+# EOF
