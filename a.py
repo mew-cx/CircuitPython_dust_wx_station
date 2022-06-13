@@ -136,6 +136,8 @@ def DayOfWeek(wday):
 
 while True:
 
+    print()
+
     t = ds1307.datetime
     print("{} {}-{:02}-{:02}T{:02}:{:02}:{:02}Z".format(
         DayOfWeek(t.tm_wday),
@@ -156,7 +158,7 @@ while True:
 
     try:
         x = sps30.read()
-        print(x)
+        #print(x)
     except RuntimeError as ex:
         print("Cant read SPS30, skipping: " + str(ex))
         continue
@@ -174,7 +176,6 @@ while True:
         x["pm100 standard"]
         )
 
-    print()
     time.sleep(5)
 
 #############################################################################
@@ -183,7 +184,6 @@ while True:
 
 #############################################################################
 
-while True:
     print("Concentration Units (standard):")
     print("\tPM 1.0: {}\tPM2.5: {}\tPM10: {}".format(
             aqdata["pm10 standard"], aqdata["pm25 standard"], aqdata["pm100 standard"]
@@ -195,7 +195,3 @@ while True:
     print("\t0.3-2.5um  / cm3:", aqdata["particles 25um"])
     print("\t0.3-4.0um  / cm3:", aqdata["particles 40um"])
     print("\t0.3-10.0um / cm3:", aqdata["particles 100um"])
-    print()
-
-    time.sleep(300)
-
