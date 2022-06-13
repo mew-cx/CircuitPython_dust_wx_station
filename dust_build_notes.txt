@@ -1,6 +1,6 @@
-notes about dust sensor system -- mew@mew.cx
+notes about dust sensor system -- mew@mew.cx 2022-06-13
 
-backplane:
+Backplane:
          | SDA     | SCL     | GND     | 5v0     | 3v3     | SCK     | MOSI    | Description
 ---------+---------+---------+---------+---------+---------+---------+---------+-------------+------
 FESP32   | grn     | yel     | ora     | red     | brn     | vio     | gry     | Feather ESP32-S2
@@ -11,6 +11,8 @@ SPS30    | wht     | vio     | blk&grn | red     | -       | -       | -       |
 ledstrip | -       | -       | wht     | red     | -       | brn     | blk     | dotstar LED strip
 mpm3610  | -       | -       | none    | none    | -       | -       | -       | 5v0 power regulator
 
+=============================================================================
+Device details
 
 FESP32 : Feather ESP32-S2 (rev B) microcontroller, proplabel 3058
 https://www.adafruit.com/product/5000
@@ -70,5 +72,33 @@ https://www.adafruit.com/product/4739
 
 LC709203 : LiPo battery monitor, I2C id 0x0b
 (on the FESP32 board, but not used)
+
+=============================================================================
+FESP32 pin map w aliases (all have a "board." prefix)
+
+A0	D18
+A1	D17
+A2	D16
+A3	D15
+A4	D14
+A5	D8
+BOOT0	BUTTON	D0
+D10
+D11
+D12
+D13	L	LED
+D3	SDA
+D35	MOSI
+D36	SCK
+D37	MISO
+D38	RX
+D39	TX
+D4	SCL
+D5
+D6
+D7	I2C_POWER
+D9
+NEOPIXEL
+NEOPIXEL_POWER
 
 # EOF
