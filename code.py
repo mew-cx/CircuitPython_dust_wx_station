@@ -1,4 +1,5 @@
 #import ds1307_simpletest
+#import dust_dotstar
 #import htu21d_simpletest
 import mpl3115a2_simpletest
 #rfc5424_formatter.py
