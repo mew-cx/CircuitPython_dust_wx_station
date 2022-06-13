@@ -24,6 +24,7 @@ from secrets import secrets
 
 # SPS30 limits I2C rate to 100kHz
 i2c = busio.I2C(board.SCL, board.SDA, frequency=100_000)
+# I2C addresses found: 0xb, 0x40, 0x60, 0x68, 0x69
 
 # Create the I2C sensor instances
 ds1307  = adafruit_ds1307.DS1307(i2c)
