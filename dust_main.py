@@ -126,10 +126,50 @@ def shutdown():
         dots[dot] = (0,0,0)
 
 #############################################################################
+
+HOST = "pink"
+PORT = 514
+TIMEOUT = 5  #None
+
+print("connecting to AP", secrets["ssid"])
+wifi.radio.connect(secrets["ssid"], secrets["password"])
+print("my ipaddr", wifi.radio.ipv4_address)
+
+pool = socketpool.SocketPool(wifi.radio)
+server_ipv4 = ipaddress.ip_address(pool.getaddrinfo(HOST, PORT)[0][4][0])
+print("server ipaddr", server_ipv4)
+print("ping time", wifi.radio.ping(server_ipv4), "ms")
+
+print("creating socket")
+sock = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
+sock.settimeout(TIMEOUT)
+
+print("connecting to socket")
+sock.connect((HOST, PORT))
+
+#############################################################################
 # main
 
-print('"date","time[Z]","temp[C]","RH[%]","pres[pa]","tps[um]","mass[ug/m^3]",,,,"count[#/cm^3]",,,,')
-print(',,,,,,"1.0um","2.5um","4.0um","10um","0.5um","1.0um","2.5um","4.0um","10um"')
+InitializeDevices()
+
+sock.send(FormatRFC5424(
+    facility = Facility.LOCAL3,
+    severity = Severity.NOTICE,
+    timestamp = FormatTimestamp(ds1307.datetime),
+    hostname = wifi.radio.ipv4_address,
+    app_name = "dust",
+    msg = '"date","time[Z]","temp[C]","RH[%]","pres[pa]","tps[um]","mass[ug/m^3]",,,,"count[#/cm^3]",,,,\n'
+    ))
+
+sock.send(FormatRFC5424(
+    facility = Facility.LOCAL3,
+    severity = Severity.NOTICE,
+    timestamp = FormatTimestamp(ds1307.datetime),
+    hostname = wifi.radio.ipv4_address,
+    app_name = "dust",
+    msg = ',,,,,,"1.0um","2.5um","4.0um","10um","0.5um","1.0um","2.5um","4.0um","10um"'
+    ))
+
 
 while True:
 
@@ -154,24 +194,17 @@ while True:
         x["particles 05um"], x["particles 10um"], x["particles 25um"],
         x["particles 40um"], x["particles 100um"])
 
-    print(timestamp + h + p1 + p2 + p3)
+    result = timestamp + h + p1 + p2 + p3
+    print(result)
+
+    sent = sock.send(FormatRFC5424(
+        facility = Facility.LOCAL3,
+        severity = Severity.INFO,
+        timestamp = FormatTimestamp(ds1307.datetime),
+        hostname = wifi.radio.ipv4_address,
+        app_name = "dust",
+        msg = result
+        ))
+    print("sent length : %d" % sent)
+
     time.sleep(5)
-
-#############################################################################
-
-# rfc5424_formatter.py
-
-#############################################################################
-
-while False:
-    print("Concentration Units (standard):")
-    print("\tPM 1.0: {}\tPM2.5: {}\tPM10: {}".format(
-            aqdata["pm10 standard"], aqdata["pm25 standard"], aqdata["pm100 standard"]
-        )
-    )
-    print("Concentration Units (number count):")
-    print("\t0.3-0.5um  / cm3:", aqdata["particles 05um"])
-    print("\t0.3-1.0um  / cm3:", aqdata["particles 10um"])
-    print("\t0.3-2.5um  / cm3:", aqdata["particles 25um"])
-    print("\t0.3-4.0um  / cm3:", aqdata["particles 40um"])
-    print("\t0.3-10.0um / cm3:", aqdata["particles 100um"])
