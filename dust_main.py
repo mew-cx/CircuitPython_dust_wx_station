@@ -133,19 +133,17 @@ while True:
     print()
 
     t = ds1307.datetime
-    print("{:04}-{:02}-{:02},{:02}:{:02}:{:02},".format(
-        t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec))
+    date = "{:04}-{:02}-{:02},{:02}:{:02}:{:02},".format(
+        t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
+    print(date)
 
-    print("htu21d : {:0.1f}C {:0.1f}%RH".format(
-        htu21d.temperature,
-        htu21d.relative_humidity
-        ))
+    h = "{:0.1f}C {:0.1f}%RH".format(
+        htu21d.temperature, htu21d.relative_humidity)
+    print(h)
 
-    print("mpl3115 : {:0.0f}pa {:0.0f}m {:0.1f}C".format(
-        mpl3115.pressure,
-        mpl3115.altitude,
-        mpl3115.temperature
-        ))
+    m = "mpl3115 : {:0.0f}pa {:0.0f}m {:0.1f}C".format(
+        mpl3115.pressure, mpl3115.altitude, mpl3115.temperature)
+    print(m)
 
     try:
         x = sps30.read()
