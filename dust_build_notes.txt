@@ -76,28 +76,28 @@ LC709203 : LiPo battery monitor, I2C id 0x0b
 =============================================================================
 FESP32 pin map w aliases (all have a "board." prefix)
 
-A0	D18
-A1	D17
-A2	D16
-A3	D15
-A4	D14
-A5	D8
 BOOT0	BUTTON	D0
+D3	SDA
+D4	SCL
+D5
+D6
+D7	I2C_POWER
+D8	A5
+D9
 D10
 D11
 D12
 D13	L	LED
-D3	SDA
+D14	A4
+D15	A3
+D16	A2
+D17	A1
+D18	A0
 D35	MOSI
 D36	SCK
 D37	MISO
 D38	RX
 D39	TX
-D4	SCL
-D5
-D6
-D7	I2C_POWER
-D9
 NEOPIXEL
 NEOPIXEL_POWER
 
