@@ -167,7 +167,7 @@ sock.send(FormatRFC5424(
     timestamp = FormatTimestamp(ds1307.datetime),
     hostname = wifi.radio.ipv4_address,
     app_name = "dust",
-    msg = ',,,,,,"1.0um","2.5um","4.0um","10um","0.5um","1.0um","2.5um","4.0um","10um"'
+    msg = ',,,,,,"1.0um","2.5um","4.0um","10um","0.5um","1.0um","2.5um","4.0um","10um"\n'
     ))
 
 
@@ -194,7 +194,7 @@ while True:
         x["particles 05um"], x["particles 10um"], x["particles 25um"],
         x["particles 40um"], x["particles 100um"])
 
-    result = timestamp + h + p1 + p2 + p3
+    result = timestamp + h + p1 + p2 + p3 + '\n'
     print(result)
 
     sent = sock.send(FormatRFC5424(
@@ -205,6 +205,5 @@ while True:
         app_name = "dust",
         msg = result
         ))
-    print("sent length : %d" % sent)
 
-    time.sleep(5)
+    time.sleep(60)
