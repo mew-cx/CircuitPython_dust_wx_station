@@ -128,22 +128,17 @@ def shutdown():
 #############################################################################
 # main
 
+print('"date","time[Z]","temp[C]","RH[%]","pres[pa]","tps[um]","mass[ug/m^3]",,,,"count[#/cm^3]",,,,')
+print(',,,,,,"1.0um","2.5um","4.0um","10um","0.5um","1.0um","2.5um","4.0um","10um"')
+
 while True:
 
-    print()
-
     t = ds1307.datetime
-    date = "{:04}-{:02}-{:02},{:02}:{:02}:{:02},".format(
+    timestamp = "{:04}-{:02}-{:02},{:02}:{:02}:{:02},".format(
         t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
-    print(date)
 
-    h = "{:0.1f}C {:0.1f}%RH".format(
-        htu21d.temperature, htu21d.relative_humidity)
-    print(h)
-
-    m = "mpl3115 : {:0.0f}pa {:0.0f}m {:0.1f}C".format(
-        mpl3115.pressure, mpl3115.altitude, mpl3115.temperature)
-    print(m)
+    h = "{:0.1f},{:0.1f},{:0.0f},".format(
+        htu21d.temperature, htu21d.relative_humidity, mpl3115.pressure)
 
     try:
         x = sps30.read()
@@ -152,19 +147,14 @@ while True:
         print("Cant read SPS30, skipping: " + str(ex))
         continue
 
-    print(
-        x["tps"],"-",
-        x["particles 05um"],
-        x["particles 10um"],
-        x["particles 25um"],
-        x["particles 40um"],
-        x["particles 100um"],"-",
-        x["pm10 standard"],
-        x["pm25 standard"],
-        x["pm40 standard"],
-        x["pm100 standard"]
-        )
+    p1 = "{:0.3f},".format(x["tps"])
+    p2 = "{:0.1f},{:0.1f},{:0.1f},{:0.1f},".format(
+        x["pm10 standard"], x["pm25 standard"], x["pm40 standard"], x["pm100 standard"])
+    p3 = "{:0.0f},{:0.0f},{:0.0f},{:0.0f},{:0.0f}".format(
+        x["particles 05um"], x["particles 10um"], x["particles 25um"],
+        x["particles 40um"], x["particles 100um"])
 
+    print(timestamp + h + p1 + p2 + p3)
     time.sleep(5)
 
 #############################################################################
