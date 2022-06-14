@@ -1,11 +1,11 @@
-# main
+# dust_main.py
 
 import busio
 import time
 import board
 import atexit
 import digitalio
-import microcontroller
+#import microcontroller
 import wifi
 import socketpool
 import ipaddress
@@ -126,13 +126,6 @@ def shutdown():
         dots[dot] = (0,0,0)
 
 #############################################################################
-
-def DayOfWeek(wday):
-    # https://docs.python.org/3/library/time.html#time.struct_time
-    # describes tm_wday as "range [0, 6], Monday is 0"
-    return ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")[wday]
-
-#############################################################################
 # main
 
 while True:
@@ -140,11 +133,8 @@ while True:
     print()
 
     t = ds1307.datetime
-    print("{} {}-{:02}-{:02}T{:02}:{:02}:{:02}Z".format(
-        DayOfWeek(t.tm_wday),
+    print("{:04}-{:02}-{:02},{:02}:{:02}:{:02},".format(
         t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec))
-
-    print("cpu: {:0.1f}C".format(microcontroller.cpu.temperature))
 
     print("htu21d : {:0.1f}C {:0.1f}%RH".format(
         htu21d.temperature,
