@@ -7,3 +7,18 @@ total 572
 -r--r--r-- 1 www-data www-data 577637 Jun 20 01:22 local3.csv-20220620
 
 =============================================================================
+refresh bundle files for CPy 730.
+
+run sps30 for 30 seconds before recording a measurement.
+
+ensure D13 led, external i2c power, and neopixel are unpowered.
+
+use watchdog to ensure running
+
+used deep sleep to save power
+
+can htu and mpl be powered down?
+
+check on mpl read protocol, to ensure it doesn't block.
+
+=============================================================================
