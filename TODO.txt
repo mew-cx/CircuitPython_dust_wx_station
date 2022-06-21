@@ -1,0 +1,9 @@
+=============================================================================
+fix ownership of local3.csv in the www directory to www-data:www-data:
+
+root@pink# lll /var/www/html/dust/logs/
+total 572
+-rw-r----- 1 root     adm         858 Jun 21 01:33 local3.csv
+-r--r--r-- 1 www-data www-data 577637 Jun 20 01:22 local3.csv-20220620
+
+=============================================================================
