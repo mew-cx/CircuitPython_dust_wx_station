@@ -154,22 +154,14 @@ InitializeDevices()
 
 sock.send(FormatRFC5424(
     facility = Facility.LOCAL3,
-    severity = Severity.NOTICE,
+    severity = Severity.INFO,
     timestamp = FormatTimestamp(ds1307.datetime),
     hostname = wifi.radio.ipv4_address,
     app_name = "dust",
-    msg = '"date","time[Z]","temp[C]","RH[%]","pres[pa]","tps[um]","mass[ug/m^3]",,,,"count[#/cm^3]",,,,\n'
+    msg = '"date","time[Z]","temp[C]","RH[%]","pres[pa]","tps[um]",' \
+          '"1.0um mass[ug/m^3]","2.5um mass[ug/m^3]","4.0um mass[ug/m^3]","10um mass[ug/m^3]",' \
+          '"0.5um count[#/cm^3]","1.0um count[#/cm^3]","2.5um count[#/cm^3]","4.0um count[#/cm^3]","10um count[#/cm^3]"'
     ))
-
-sock.send(FormatRFC5424(
-    facility = Facility.LOCAL3,
-    severity = Severity.NOTICE,
-    timestamp = FormatTimestamp(ds1307.datetime),
-    hostname = wifi.radio.ipv4_address,
-    app_name = "dust",
-    msg = ',,,,,,"1.0um","2.5um","4.0um","10um","0.5um","1.0um","2.5um","4.0um","10um"\n'
-    ))
-
 
 while True:
 
