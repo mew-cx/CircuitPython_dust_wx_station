@@ -38,40 +38,38 @@ NUM_DOTS = 4
 dots = adafruit_dotstar.DotStar(board.SCK, board.MOSI, NUM_DOTS, brightness=0.1)
 
 #############################################################################
-
-__version__ = "0.0.0"
-__repo__ = "https://github.com/mew-cx/CircuitPython_logger_rfc5424"
+# "The Syslog Protocol" : https://datatracker.ietf.org/doc/html/rfc5424
 
 class Facility:
-    "Syslog facilities, RFC5424 section 6.2.1"
+    "Syslog facilities, Sect 6.2.1"
     KERN, USER, MAIL, DAEMON, AUTH, SYSLOG, LPR, NEWS, UUCP, CRON, \
         AUTHPRIV, FTP = range(0,12)
     LOCAL0, LOCAL1, LOCAL2, LOCAL3, LOCAL4, LOCAL5, LOCAL6, \
         LOCAL7 = range(16, 24)
 
 class Severity:
-    "Syslog severities, RFC5424 section 6.2.1"
+    "Syslog severities, Sect 6.2.1"
     EMERG, ALERT, CRIT, ERR, WARNING, NOTICE, INFO, DEBUG = range(0,8)
 
 def FormatTimestamp(t):
-    "RFC5424 section 6.2.3"
+    "Sect 6.2.3"
     result = "{:04}-{:02}-{:02}T{:02}:{:02}:{:02}Z".format(
         t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
     return result
 
 def FormatSyslog(facility = Facility.USER,
-                  severity = Severity.NOTICE,
-                  timestamp = None,
-                  hostname = None,
-                  app_name = None,
-                  procid = None,
-                  msgid = None,
-                  structured_data = None,
-                  msg = None) :
-    "RFC5424 section 6"
+                 severity = Severity.NOTICE,
+                 timestamp = None,
+                 hostname = None,
+                 app_name = None,
+                 procid = None,
+                 msgid = None,
+                 structured_data = None,
+                 msg = None) :
+    "RFC5424 Sect 6.x.x"
 
-    # Sect 9.1: RFC5424's VERSION is "1"
     # Sect 6.2: HEADER MUST be ASCII
+    # Sect 9.1: RFC5424's VERSION is "1"
     header = "<{}>1 {} {} {} {} {} ".format(
         (facility << 3) + severity,
         timestamp or "-",
