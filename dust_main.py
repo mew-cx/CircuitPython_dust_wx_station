@@ -95,8 +95,8 @@ def FormatRFC5424(facility = Facility.USER,
     if msg:
         result += b" " + msg.encode(enc)
 
-    #print(repr(result))
-    return result
+    print(repr(result))
+    return result + b"\n"
 
 #############################################################################
 
@@ -186,8 +186,7 @@ while True:
         x["particles 05um"], x["particles 10um"], x["particles 25um"],
         x["particles 40um"], x["particles 100um"])
 
-    result = timestamp + h + p1 + p2 + p3 + '\n'
-    print(result)
+    result = timestamp + h + p1 + p2 + p3
 
     sent = sock.send(FormatRFC5424(
         facility = Facility.LOCAL3,
