@@ -13,4 +13,9 @@ can htu and mpl be powered down?
 
 check on mpl read protocol, to ensure it doesn't block.
 
+put quotes around timestamp values.
+
+in the header: add board_id, CPy version, microcontroller_id, dust version
+
+what's a good way to generate build_timestamp (date, g desc)
 =============================================================================
