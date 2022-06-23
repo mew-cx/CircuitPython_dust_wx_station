@@ -59,7 +59,7 @@ def FormatTimestamp(t):
         t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
     return result
 
-def FormatRFC5424(facility = Facility.USER,
+def FormatSyslog(facility = Facility.USER,
                   severity = Severity.NOTICE,
                   timestamp = None,
                   hostname = None,
@@ -152,7 +152,7 @@ sock.connect((HOST, PORT))
 
 InitializeDevices()
 
-sock.send(FormatRFC5424(
+sock.send(FormatSyslog(
     facility = Facility.LOCAL3,
     severity = Severity.INFO,
     timestamp = FormatTimestamp(ds1307.datetime),
@@ -188,7 +188,7 @@ while True:
 
     result = timestamp + h + p1 + p2 + p3
 
-    sent = sock.send(FormatRFC5424(
+    sent = sock.send(FormatSyslog(
         facility = Facility.LOCAL3,
         severity = Severity.INFO,
         timestamp = FormatTimestamp(ds1307.datetime),
