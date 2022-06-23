@@ -156,16 +156,13 @@ sock.send(FormatSyslog(
     timestamp = FormatTimestamp(ds1307.datetime),
     hostname = wifi.radio.ipv4_address,
     app_name = "dust",
-    msg = '"date","time[Z]","temp[C]","RH[%]","pres[pa]","tps[um]",' \
+    msg = '"timestamp","temp[C]","RH[%]","pres[pa]","tps[um]",' \
           '"1.0um mass[ug/m^3]","2.5um mass[ug/m^3]","4.0um mass[ug/m^3]","10um mass[ug/m^3]",' \
           '"0.5um count[#/cm^3]","1.0um count[#/cm^3]","2.5um count[#/cm^3]","4.0um count[#/cm^3]","10um count[#/cm^3]"'
     ))
 
 while True:
-
-    t = ds1307.datetime
-    timestamp = "{:04}-{:02}-{:02},{:02}:{:02}:{:02},".format(
-        t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
+    ts = FormatTimestamp(ds1307.datetime)
 
     h = "{:0.1f},{:0.1f},{:0.0f},".format(
         htu21d.temperature, htu21d.relative_humidity, mpl3115.pressure)
@@ -184,12 +181,12 @@ while True:
         x["particles 05um"], x["particles 10um"], x["particles 25um"],
         x["particles 40um"], x["particles 100um"])
 
-    result = timestamp + h + p1 + p2 + p3
+    result = ts + "," + h + p1 + p2 + p3
 
     sent = sock.send(FormatSyslog(
         facility = Facility.LOCAL3,
         severity = Severity.INFO,
-        timestamp = FormatTimestamp(ds1307.datetime),
+        timestamp = ts,
         hostname = wifi.radio.ipv4_address,
         app_name = "dust",
         msg = result
