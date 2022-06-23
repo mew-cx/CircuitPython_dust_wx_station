@@ -1,4 +1,4 @@
-notes about dust sensor system -- mew@mew.cx 2022-06-13
+notes about dust sensor system -- mew@mew.cx 2022-06-23
 
 Backplane:
          | SDA     | SCL     | GND     | 5v0     | 3v3     | SCK     | MOSI    | Description
@@ -72,33 +72,5 @@ https://www.adafruit.com/product/4739
 
 LC709203 : LiPo battery monitor, I2C id 0x0b
 (on the FESP32 board, but not used)
-
-=============================================================================
-FESP32 pin map w aliases (all have a "board." prefix)
-
-BOOT0	BUTTON	D0
-D3	SDA
-D4	SCL
-D5
-D6
-D7	I2C_POWER
-D8	A5
-D9
-D10
-D11
-D12
-D13	L	LED
-D14	A4
-D15	A3
-D16	A2
-D17	A1
-D18	A0
-D35	MOSI
-D36	SCK
-D37	MISO
-D38	RX
-D39	TX
-NEOPIXEL
-NEOPIXEL_POWER
 
 # EOF
