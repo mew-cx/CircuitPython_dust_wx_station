@@ -192,4 +192,4 @@ while True:
         msg = result
         ))
 
-    time.sleep(60)
+    time.sleep(5*60)
