@@ -1,4 +1,11 @@
+# SPDX-FileCopyrightText: 2022 Michael Weiblen http://mew.cx/
+#
+# SPDX-License-Identifier: MIT
+
 # dust_main.py
+
+'''
+'''
 
 import busio
 import time
@@ -117,6 +124,7 @@ def InitializeDevices():
     # Don't care about altitude, so use Standard Atmosphere [pascals]
     mpl3115.sealevel_pressure = 101325
 
+#############################################################################
 
 @atexit.register
 def shutdown():
@@ -193,3 +201,6 @@ while True:
         ))
 
     time.sleep(5*60)
+
+#############################################################################
+# vim: set sw=4 ts=8 et ic ai:
