@@ -26,6 +26,7 @@ import adafruit_mpl3115a2
 from adafruit_sps30.i2c import SPS30_I2C
 
 from secrets import secrets
+import rfc5424
 
 #############################################################################
 
@@ -43,65 +44,6 @@ sps30 = SPS30_I2C(i2c, fp_mode=True)
 # dotstar strip on hardware SPI
 NUM_DOTS = 4
 dots = adafruit_dotstar.DotStar(board.SCK, board.MOSI, NUM_DOTS, brightness=0.1)
-
-#############################################################################
-# "The Syslog Protocol" : https://datatracker.ietf.org/doc/html/rfc5424
-
-class Facility:
-    "Syslog facilities, Sect 6.2.1"
-    KERN, USER, MAIL, DAEMON, AUTH, SYSLOG, LPR, NEWS, UUCP, CRON, \
-        AUTHPRIV, FTP = range(0,12)
-    LOCAL0, LOCAL1, LOCAL2, LOCAL3, LOCAL4, LOCAL5, LOCAL6, \
-        LOCAL7 = range(16, 24)
-
-class Severity:
-    "Syslog severities, Sect 6.2.1"
-    EMERG, ALERT, CRIT, ERR, WARNING, NOTICE, INFO, DEBUG = range(0,8)
-
-def FormatTimestamp(t):
-    "Sect 6.2.3"
-    result = "{:04}-{:02}-{:02}T{:02}:{:02}:{:02}Z".format(
-        t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
-    return result
-
-def FormatSyslog(facility = Facility.USER,
-                 severity = Severity.NOTICE,
-                 timestamp = None,
-                 hostname = None,
-                 app_name = None,
-                 procid = None,
-                 msgid = None,
-                 structured_data = None,
-                 msg = None) :
-    "RFC5424 Sect 6.x.x"
-
-    # Sect 6.2: HEADER MUST be ASCII
-    # Sect 9.1: RFC5424's VERSION is "1"
-    header = "<{}>1 {} {} {} {} {} ".format(
-        (facility << 3) + severity,
-        timestamp or "-",
-        hostname or "-",
-        app_name or "-",
-        procid or "-",
-        msgid or "-")
-    result = header.encode("ascii")
-
-    # Sect 6.3: STRUCTURED-DATA has complicated encoding requirements,
-    # so we require it to already be properly encoded.
-    if not structured_data:
-        structured_data = b"-"
-    result += structured_data
-
-    # Sect 6.4: # MSG SHOULD be UTF-8, but MAY be other encoding.
-    # If using UTF-8, MSG MUST start with Unicode BOM.
-    # Sect 6 ABNF: MSG is optional.
-    #enc = "utf-8-sig"
-    enc = "ascii"       # we're using ASCII
-    if msg:
-        result += b" " + msg.encode(enc)
-
-    print(repr(result))
-    return result + b"\n"
 
 #############################################################################
 
@@ -158,19 +100,19 @@ sock.connect((HOST, PORT))
 
 InitializeDevices()
 
-sock.send(FormatSyslog(
-    facility = Facility.LOCAL3,
-    severity = Severity.INFO,
-    timestamp = FormatTimestamp(ds1307.datetime),
+sock.send(rfc5424.FormatSyslog(
+    facility = rfc5424.Facility.LOCAL3,
+    severity = rfc5424.Severity.INFO,
+    timestamp = rfc5424.FormatTimestamp(ds1307.datetime),
     hostname = wifi.radio.ipv4_address,
     app_name = "dust",
     msg = '"timestamp","temp[C]","RH[%]","pres[pa]","tps[um]",' \
           '"1.0um mass[ug/m^3]","2.5um mass[ug/m^3]","4.0um mass[ug/m^3]","10um mass[ug/m^3]",' \
           '"0.5um count[#/cm^3]","1.0um count[#/cm^3]","2.5um count[#/cm^3]","4.0um count[#/cm^3]","10um count[#/cm^3]"'
-    ))
+    ) + b'\n')
 
 while True:
-    ts = FormatTimestamp(ds1307.datetime)
+    ts = rfc5424.FormatTimestamp(ds1307.datetime)
 
     h = "{:0.1f},{:0.1f},{:0.0f},".format(
         htu21d.temperature, htu21d.relative_humidity, mpl3115.pressure)
@@ -191,14 +133,14 @@ while True:
 
     result = '"' + ts + '",' + h + p1 + p2 + p3
 
-    sent = sock.send(FormatSyslog(
-        facility = Facility.LOCAL3,
-        severity = Severity.INFO,
+    sent = sock.send(rfc5424.FormatSyslog(
+        facility = rfc5424.Facility.LOCAL3,
+        severity = rfc5424.Severity.INFO,
         timestamp = ts,
         hostname = wifi.radio.ipv4_address,
         app_name = "dust",
         msg = result
-        ))
+        ) + b'\n')
 
     time.sleep(5*60)
 
