@@ -5,6 +5,21 @@
 # dust_main.py
 
 '''
+This is the main application for collecting sensor data from our "dust"
+weather station and saving those data via syslog to our "pink" file server.
+The data (and column headers labeling the data) are formatted as familiar
+CSV (comma separated value) text for convenient reading into a spreadsheet.
+
+In this system, the syslog facility "local3" is dedicated for use with
+the dust weather station.  The CSV data is transmitted via a wifi socket
+using syslog's "local3.info" priority (facility "local3", severity "info").
+Other non-data messages (e.g.: status, error) will use a different severity.
+
+On the receiving end, pink's syslog is configured to write "local3.info"
+CSV data messages to a file accessible using pink's webserver at
+http://pink/dust/logs/
+Any "local3" messages with another severity (i.e.: not "info") will be
+written to a different file at /var/log/local3.log
 '''
 
 import busio
@@ -12,7 +27,6 @@ import time
 import board
 import atexit
 import digitalio
-#import microcontroller
 import wifi
 import socketpool
 import ipaddress
@@ -35,11 +49,10 @@ i2c = busio.I2C(board.SCL, board.SDA, frequency=100_000)
 # I2C addresses found: 0xb, 0x40, 0x60, 0x68, 0x69
 
 # Create the I2C sensor instances
-ds1307  = adafruit_ds1307.DS1307(i2c)
-htu21d  = adafruit_htu21d.HTU21D(i2c)
-mpl3115 = adafruit_mpl3115a2.MPL3115A2(i2c)
-#sps30   = adafruit_sps30.i2c(i2c, fp_mode=True)
-sps30 = SPS30_I2C(i2c, fp_mode=True)
+ds1307  = adafruit_ds1307.DS1307(i2c)        # id 0x68
+htu21d  = adafruit_htu21d.HTU21D(i2c)        # id 0x40
+mpl3115 = adafruit_mpl3115a2.MPL3115A2(i2c)  # id 0x60
+sps30   = SPS30_I2C(i2c, fp_mode=True)       # id 0x69
 
 # dotstar strip on hardware SPI
 NUM_DOTS = 4
@@ -77,7 +90,7 @@ def shutdown():
 
 HOST = "pink"
 PORT = 514
-TIMEOUT = 5  #None
+TIMEOUT = 5
 
 print("connecting to AP", secrets["ssid"])
 wifi.radio.connect(secrets["ssid"], secrets["password"])
@@ -100,6 +113,7 @@ sock.connect((HOST, PORT))
 
 InitializeDevices()
 
+# Write column headers for CSV data via syslog
 sock.send(rfc5424.FormatSyslog(
     facility = rfc5424.Facility.LOCAL3,
     severity = rfc5424.Severity.INFO,
@@ -133,6 +147,7 @@ while True:
 
     result = '"' + ts + '",' + h + p1 + p2 + p3
 
+    # Write sensor data in CSV format via syslog
     sent = sock.send(rfc5424.FormatSyslog(
         facility = rfc5424.Facility.LOCAL3,
         severity = rfc5424.Severity.INFO,
@@ -144,5 +159,4 @@ while True:
 
     time.sleep(5*60)
 
-#############################################################################
 # vim: set sw=4 ts=8 et ic ai:
