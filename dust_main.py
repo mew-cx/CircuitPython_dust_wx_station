@@ -27,9 +27,6 @@ import time
 import board
 import atexit
 import digitalio
-import wifi
-import socketpool
-import ipaddress
 
 import neopixel
 import adafruit_ds1307
@@ -39,8 +36,9 @@ import adafruit_mpl3115a2
 #import adafruit_sps30.i2c
 from adafruit_sps30.i2c import SPS30_I2C
 
-from secrets import secrets
 import rfc5424
+import wifi_socket
+from secrets import secrets
 
 #############################################################################
 
@@ -87,38 +85,24 @@ def shutdown():
         dots[dot] = (0,0,0)
 
 #############################################################################
+# main
 
 HOST = "pink"
 PORT = 514
 TIMEOUT = 5
 
-print("connecting to AP", secrets["ssid"])
-wifi.radio.connect(secrets["ssid"], secrets["password"])
-print("my ipaddr", wifi.radio.ipv4_address)
-
-pool = socketpool.SocketPool(wifi.radio)
-server_ipv4 = ipaddress.ip_address(pool.getaddrinfo(HOST, PORT)[0][4][0])
-print("server ipaddr", server_ipv4)
-print("ping time", wifi.radio.ping(server_ipv4), "ms")
-
-print("creating socket")
-sock = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
-sock.settimeout(TIMEOUT)
-
-print("connecting to socket")
-sock.connect((HOST, PORT))
-
-#############################################################################
-# main
+ws = wifi_socket.WifiSocket(HOST, PORT)
+ws.ConnectToAP(secrets["ssid"], secrets["password"])
+ws.ConnectToSocket()
 
 InitializeDevices()
 
 # Write column headers for CSV data via syslog
-sock.send(rfc5424.FormatSyslog(
+ws.socket.send(rfc5424.FormatSyslog(
     facility = rfc5424.Facility.LOCAL3,
     severity = rfc5424.Severity.INFO,
     timestamp = rfc5424.FormatTimestamp(ds1307.datetime),
-    hostname = wifi.radio.ipv4_address,
+    hostname = ws.ipaddr,
     app_name = "dust",
     msg = '"timestamp","temp[C]","RH[%]","pres[pa]","tps[um]",' \
           '"1.0um mass[ug/m^3]","2.5um mass[ug/m^3]","4.0um mass[ug/m^3]","10um mass[ug/m^3]",' \
@@ -148,11 +132,11 @@ while True:
     result = '"' + ts + '",' + h + p1 + p2 + p3
 
     # Write sensor data in CSV format via syslog
-    sent = sock.send(rfc5424.FormatSyslog(
+    sent = ws.socket.send(rfc5424.FormatSyslog(
         facility = rfc5424.Facility.LOCAL3,
         severity = rfc5424.Severity.INFO,
         timestamp = ts,
-        hostname = wifi.radio.ipv4_address,
+        hostname = ws.ipaddr,
         app_name = "dust",
         msg = result
         ) + b'\n')
