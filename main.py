@@ -13,13 +13,13 @@ CSV (comma separated value) text for convenient reading into a spreadsheet.
 In this system, the syslog facility "local3" is dedicated for use with
 the dust weather station.  The CSV data is transmitted via a wifi socket
 using syslog's "local3.info" priority (facility "local3", severity "info").
-Other non-data messages (e.g.: status, error) will use a different severity.
+Other non-data messages (e.g. status, error) will use a different severity.
 
 On the receiving end, pink's syslog is configured to write "local3.info"
 CSV data messages to a file accessible using pink's webserver at
 http://pink/dust/logs/
-Any "local3" messages with another severity (i.e.: not "info") will be
-written to a different file at /var/log/local3.log
+Any "local3" messages with different severity (i.e. not "info") will be
+written to a separate file at /var/log/local3.log
 '''
 
 import busio
