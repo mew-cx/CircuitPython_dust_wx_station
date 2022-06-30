@@ -27,6 +27,7 @@ import time
 import board
 import atexit
 import digitalio
+import microcontroller
 
 import neopixel
 import adafruit_ds1307
@@ -100,6 +101,8 @@ class TheApp:
         self.ws.ConnectToSocket()
 
     def Shutdown(self):
+#        self.WriteToSyslog(severity=rfc5424.Severity.NOTICE,
+#            "TheApp.Shutdown")
         self.SetDots(0,0,0)
         # what other shutdown tasks?
 
@@ -157,9 +160,9 @@ class TheApp:
 
 #############################################################################
 
-@atexit.register
-def shutdown():
-    app.Shutdown()
+#@atexit.register
+#def shutdown():
+#    app.Shutdown()
 
 #############################################################################
 # main
@@ -167,6 +170,10 @@ def shutdown():
 app = TheApp()
 app.InitializeDevices()
 app.ConnectToSyslog()
+
+app.WriteToSyslog("reset_reason " + str(microcontroller.cpu.reset_reason),
+    severity=rfc5424.Severity.NOTICE)
+
 app.WriteCsvHeaders()
 while True:
     result = app.AcquireData()
