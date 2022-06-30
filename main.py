@@ -65,7 +65,6 @@ class TheApp:
     def InitializeDevices(self):
         # hardware SPI controls the 4-LED dotstar strip
         self.dots = adafruit_dotstar.DotStar(board.SCK, board.MOSI, self.NUM_DOTS, brightness=0.1)
-        self.SetDots(0,255,0)
 
         # Turn off onboard D13 red LED to save power
         led = digitalio.DigitalInOut(board.LED)
@@ -96,7 +95,6 @@ class TheApp:
 
     def ConnectToSyslog(self):
         "Create a socket to the syslog server"
-        self.SetDots(255,0,0)
         self.ws = wifi_socket.WifiSocket(self.HOST, self.PORT)
         self.ws.ConnectToAP(secrets["ssid"], secrets["password"])
         self.ws.ConnectToSocket()
@@ -129,10 +127,8 @@ class TheApp:
     def WriteCsvData(self, csv_msg):
         "Write sensor data in CSV format via syslog"
         self.WriteToSyslog(csv_msg)
-        self.SetDots(0,0,0)
 
     def AcquireData(self):
-        self.SetDots(0,0,255)
 
         ts = rfc5424.FormatTimestamp(self.ds1307.datetime)
 
@@ -160,16 +156,15 @@ class TheApp:
         return result
 
 #############################################################################
+# main
 
 #@atexit.register
 #def shutdown():
 #    app.Shutdown()
 
-#############################################################################
-# main
-
 app = TheApp()
 app.InitializeDevices()
+app.SetDots(0,255,0)
 app.ConnectToSyslog()
 
 app.WriteToSyslog("reset_reason " + str(microcontroller.cpu.reset_reason),
@@ -177,9 +172,11 @@ app.WriteToSyslog("reset_reason " + str(microcontroller.cpu.reset_reason),
 
 app.WriteCsvHeaders()
 while True:
+    app.SetDots(0,0,255)
     result = app.AcquireData()
     app.WriteCsvData(result)
     gc.collect()
+    app.SetDots(0,0,0)
     time.sleep(5*60)
 
 # vim: set sw=4 ts=8 et ic ai:
