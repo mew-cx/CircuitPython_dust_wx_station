@@ -92,9 +92,9 @@ class TheApp:
         # Don't care about altitude, so use Standard Atmosphere [pascals]
         # mpl3115.sealevel_pressure = 101325
 
+    def ConnectToSyslog(self):
+        "Create a socket to the syslog server"
         self.SetDots(255,0,0)
-
-        # Create a socket to the syslog server.
         self.ws = wifi_socket.WifiSocket(self.HOST, self.PORT)
         self.ws.ConnectToAP(secrets["ssid"], secrets["password"])
         self.ws.ConnectToSocket()
@@ -166,6 +166,7 @@ def shutdown():
 
 app = TheApp()
 app.InitializeDevices()
+app.ConnectToSyslog()
 app.WriteCsvHeaders()
 while True:
     result = app.AcquireData()
