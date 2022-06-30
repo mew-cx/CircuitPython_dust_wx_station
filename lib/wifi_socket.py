@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: MIT
 
-# wifi_socket.py
+# wifi_socket.py  (TODO: a better name?)
+# TODO need exceptions
 '''
-WIP!!!
+WIP!!!  WIP!!!
 This library is a wrapper to encapsulate the wifi and socketpool modules
 for the dust weather station.
-We only implement IPv4., and don't even attempt IPv6.
+We only implement IPv4.
 
 '''
 
@@ -30,7 +31,7 @@ class WifiSocket:
     def ConnectToAP(self, ssid, password):
         print("connecting to AP", ssid)
         wifi.radio.connect(ssid, password)
-        print("wifi.radio.ipv4_address", wifi.radio.ipv4_address)
+        print("WifiSocket.ipaddr", self.ipaddr, "(ours)")
 
     def ConnectToSocket(self):
         pool = socketpool.SocketPool(wifi.radio)
@@ -38,12 +39,11 @@ class WifiSocket:
         addr_info = pool.getaddrinfo(self._host, self._port)
         print("repr addr_info", repr(addr_info))
         server_ipv4 = ipaddress.ip_address(addr_info[0][4][0])
-        print("server_ipv4", server_ipv4)
-        print("ping time", wifi.radio.ping(server_ipv4), "ms")
+        print("server_ipv4", server_ipv4, "(server)")
+        print("ping server_ipv4:", wifi.radio.ping(server_ipv4), "ms")
 
         print("creating socket")
         self._socket = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
-        print("self._socket", self._socket)
 
         print("connecting to socket")
         TIMEOUT = 5
@@ -51,15 +51,17 @@ class WifiSocket:
         self._socket.connect((self._host, self._port))
 
     def deinit(self):
-        self._socket.close()
+        if self._socket:
+            self._socket.close()
         self._socket = None
-        # what else goes here? how to release pool and radio?
+        # TODO what else to go here? how to release pool and radio?
 
-    @property
+    @property   # read-only
     def ipaddr(self):
+        "our ip address"
         return wifi.radio.ipv4_address
 
-    @property
+    @property   # read-only
     def socket(self):
         return self._socket
 
