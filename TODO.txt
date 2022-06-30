@@ -17,3 +17,36 @@ in the header: add board_id, CPy version, microcontroller_id, dust version
 
 what's a good way to generate build_timestamp (date, g desc)
 =============================================================================
+
+>>> import microcontroller
+>>> dir(microcontroller)
+['__class__', '__name__', 'Pin', 'Processor', 'ResetReason', 'RunMode', 'cpu', 'delay_us', 'disable_interrupts', 'enable_interrupts', 'nvm', 'on_next_reset', 'pin', 'reset', 'watchdog']
+
+>>> dir(microcontroller.watchdog)
+['__class__', 'deinit', 'feed', 'mode', 'timeout']
+>>> help(microcontroller.watchdog)
+object <WatchDogTimer> is of type WatchDogTimer
+feed -- <function>
+deinit -- <function>
+timeout -- <property>
+mode -- <property>
+
+>>> import watchdog
+>>> dir(watchdog)
+['__class__', '__name__', 'WatchDogMode', 'WatchDogTimeout']
+>>> help(watchdog)
+object <module 'watchdog'> is of type module
+__name__ -- watchdog
+WatchDogMode -- <class 'WatchDogMode'>
+WatchDogTimeout -- <class 'WatchDogTimeout'>
+
+>>> microcontroller.cpu.uid
+bytearray(b'\xc7\xfd\x1aI\xb8g')
+>>> microcontroller.cpu.temperature
+39.4348
+>>> microcontroller.cpu.reset_reason
+microcontroller.ResetReason.SOFTWARE
+>>> str(microcontroller.cpu.reset_reason)
+'microcontroller.ResetReason.SOFTWARE'
+
+=============================================================================
