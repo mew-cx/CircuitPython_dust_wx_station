@@ -28,6 +28,7 @@ import board
 import atexit
 import digitalio
 import microcontroller
+import gc
 
 import neopixel
 import adafruit_ds1307
@@ -178,6 +179,7 @@ app.WriteCsvHeaders()
 while True:
     result = app.AcquireData()
     app.WriteCsvData(result)
+    gc.collect()
     time.sleep(5*60)
 
 # vim: set sw=4 ts=8 et ic ai:
