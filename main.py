@@ -35,7 +35,6 @@ import adafruit_ds1307
 import adafruit_dotstar
 import adafruit_htu21d
 import adafruit_mpl3115a2
-#import adafruit_sps30.i2c
 from adafruit_sps30.i2c import SPS30_I2C
 
 import rfc5424
@@ -48,15 +47,15 @@ class TheApp:
     "The top-level application code for the 'dust' weather station"
 
     def __init__(self):
-        self.NUM_DOTS = 4
-        self.dots    = None
-        self.ds1307  = None
-        self.htu21d  = None
-        self.mpl3115 = None
-        self.sps30   = None
-        self.HOST    = "pink"
-        self.PORT    = 514
-        self.ws      = None
+        self.dots    = None     # string of dotstar LEDs
+        self.NUM_DOTS = 4       # how many LEDs in the dotstar string
+        self.ds1307  = None     # real-time clock
+        self.htu21d  = None     # humidity/temperature sensor
+        self.mpl3115 = None     # barometer
+        self.sps30   = None     # particle sensor
+        self.HOST    = "pink"   # syslog server name
+        self.PORT    = 514      # syslog server port
+        self.ws      = None     # wifi_socket to syslog server
 
     def SetDots(self, r, g, b):
         for dot in range(self.NUM_DOTS):
@@ -81,7 +80,7 @@ class TheApp:
         pixel.fill((0, 0, 0))
         # TODO disable board.NEOPIXEL_POWER
 
-        # The SPS30 limits the I2C bus rate to 100kHz
+        # The SPS30 limits the I2C bus rate to maximum of 100kHz
         i2c = busio.I2C(board.SCL, board.SDA, frequency=100000)
 
         # Create the I2C sensor instances
@@ -99,12 +98,6 @@ class TheApp:
         self.ws.ConnectToAP(secrets["ssid"], secrets["password"])
         self.ws.ConnectToSocket()
 
-    def Shutdown(self):
-#        self.WriteToSyslog(severity=rfc5424.Severity.NOTICE,
-#            "TheApp.Shutdown")
-        self.SetDots(0,0,0)
-        # what other shutdown tasks?
-
     def WriteToSyslog(self, message, severity=rfc5424.Severity.INFO):
         syslog_msg = rfc5424.FormatSyslog(
             facility = rfc5424.Facility.LOCAL3,
@@ -114,6 +107,8 @@ class TheApp:
             app_name = "dust",
             msg = message)
         # TODO handle ECONNECT exception
+        # HACK : because we're not using SSL (as required by rfc5424), we need
+        # a linefeed to terminate the message.
         self.ws.socket.send(syslog_msg + b'\n')
 
     def WriteCsvHeaders(self):
@@ -140,7 +135,6 @@ class TheApp:
         x = self.sps30.read()
 #        try:
 #            x = self.sps30.read()
-#            #print(x)
 #        except RuntimeError as ex:
 #            print("Cant read SPS30, skipping: " + str(ex))
 #            continue
@@ -155,6 +149,12 @@ class TheApp:
         result = '"' + ts + '",' + h + p1 + p2 + p3
         return result
 
+    def Shutdown(self):
+#        self.WriteToSyslog(severity=rfc5424.Severity.NOTICE,
+#            "TheApp.Shutdown")
+        self.SetDots(0,0,0)     # off
+        # TODO what other shutdown tasks?
+
 #############################################################################
 # main
 
@@ -164,7 +164,7 @@ class TheApp:
 
 app = TheApp()
 app.InitializeDevices()
-app.SetDots(0,255,0)
+app.SetDots(0,255,0)            # green
 app.ConnectToSyslog()
 
 app.WriteToSyslog("reset_reason " + str(microcontroller.cpu.reset_reason),
@@ -172,11 +172,11 @@ app.WriteToSyslog("reset_reason " + str(microcontroller.cpu.reset_reason),
 
 app.WriteCsvHeaders()
 while True:
-    app.SetDots(0,0,255)
+    app.SetDots(0,0,255)        # blue
     result = app.AcquireData()
     app.WriteCsvData(result)
     gc.collect()
-    app.SetDots(0,0,0)
+    app.SetDots(0,0,0)          # off
     time.sleep(5*60)
 
 # vim: set sw=4 ts=8 et ic ai:
