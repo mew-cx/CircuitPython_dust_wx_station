@@ -29,6 +29,7 @@ import atexit
 import digitalio
 import microcontroller
 import gc
+import sys
 
 import neopixel
 import adafruit_ds1307
@@ -175,7 +176,9 @@ app.InitializeDevices()
 app.SetDots(0,255,0)            # green
 app.ConnectToSyslog()
 
-app.WriteToSyslog("reset_reason " + str(microcontroller.cpu.reset_reason),
+app.WriteToSyslog("BOOT {} {}".format(
+    microcontroller.cpu.reset_reason,
+    sys.implementation),
     severity=rfc5424.Severity.NOTICE)
 
 app.WriteCsvHeaders()
