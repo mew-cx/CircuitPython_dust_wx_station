@@ -56,6 +56,7 @@ class TheApp:
         self.HOST    = "pink"   # syslog server name
         self.PORT    = 514      # syslog server port
         self.ws      = None     # wifi_socket to syslog server
+        self.sleepmin= 5        # minutes to sleep between measurements
 
     def SetDots(self, r, g, b):
         for dot in range(self.NUM_DOTS):
@@ -149,6 +150,13 @@ class TheApp:
         result = '"' + ts + '",' + h + p1 + p2 + p3
         return result
 
+    def Sleep(self):
+        for _ in range(self.sleepmin):
+            time.sleep(60)
+            app.SetDots(0,100,100)      # dark cyan
+            time.sleep(0.1)
+            app.SetDots(0,0,0)          # off
+
     def Shutdown(self):
 #        self.WriteToSyslog(severity=rfc5424.Severity.NOTICE,
 #            "TheApp.Shutdown")
@@ -177,6 +185,9 @@ while True:
     app.WriteCsvData(result)
     gc.collect()
     app.SetDots(0,0,0)          # off
-    time.sleep(5*60)
+
+    # TODO prepare to sleep
+    app.Sleep()
+    # TODO wake up from sleep
 
 # vim: set sw=4 ts=8 et ic ai:
