@@ -1,19 +1,23 @@
 =============================================================================
-refresh bundle files for CPy 730.
+Start/Stop the SPS30 (run for 30 seconds before recording a measurement.)
 
-run sps30 for 30 seconds before recording a measurement.
+Start/Stop socket
+
+Start/Stop wifi connection?
 
 ensure D13 led, external i2c power, and neopixel are unpowered.
 
 use watchdog to ensure running
 
-used deep sleep to save power
-
-can htu and mpl be powered down?
+use deep sleep to save power?
 
 check on mpl read protocol, to ensure it doesn't block.
 
-in the header: add board_id, CPy version, microcontroller_id, dust version
+in the header:
+    board.board_id
+    CPy version
+    microcontroller_id
+    dust version
 
 what's a good way to generate build_timestamp (date, g desc)
 =============================================================================
