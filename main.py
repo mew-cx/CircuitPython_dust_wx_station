@@ -11,15 +11,22 @@ The data (and column headers labeling the data) are formatted as familiar
 CSV (comma separated value) text for convenient reading into a spreadsheet.
 
 In this system, the syslog facility "local3" is dedicated for use with
-the dust weather station.  The CSV data is transmitted via a wifi socket
+the dust weather station.  The CSV data is transmitted via a wifi TCP socket
 using syslog's "local3.info" priority (facility "local3", severity "info").
 Other non-data messages (e.g. status, error) will use a different severity.
 
 On the receiving end, pink's syslog is configured to write "local3.info"
-CSV data messages to a file accessible using pink's webserver at
-http://pink/dust/logs/
+CSV data messages to the /var/www/html/dust/logs/local3.csv file, which
+is accessible using pink's webserver at http://pink/dust/logs/
 Any "local3" messages with different severity (i.e. not "info") will be
-written to a separate file at /var/log/local3.log
+written to a separate /var/log/local3.log file.
+See /etc/rsyslog.d/local3.conf for configuration details.
+
+To prevent those datafiles from growing forever, pink's logrotate periodically
+archives collected data and creates empty files for new data.
+See /etc/logrotate.d/rsyslog-local3 for configuration details.
+
+See hardware_notes.txt for sensor and interconnection details.
 '''
 
 import busio
@@ -50,10 +57,10 @@ class TheApp:
     def __init__(self):
         self.dots    = None     # string of dotstar LEDs
         self.NUM_DOTS = 4       # how many LEDs in the dotstar string
-        self.ds1307  = None     # real-time clock
+        self.ds1307  = None     # battery-backed real-time clock
         self.htu21d  = None     # humidity/temperature sensor
-        self.mpl3115 = None     # barometer
-        self.sps30   = None     # particle sensor
+        self.mpl3115 = None     # barometric pressure sensor
+        self.sps30   = None     # particulate matter sensor
         self.HOST    = "pink"   # syslog server name
         self.PORT    = 514      # syslog server port
         self.ws      = None     # wifi_socket to syslog server
@@ -91,7 +98,7 @@ class TheApp:
         self.mpl3115 = adafruit_mpl3115a2.MPL3115A2(i2c)  # id 0x60
         self.sps30   = SPS30_I2C(i2c, fp_mode=True)       # id 0x69
 
-        # Don't care about altitude, so use Standard Atmosphere [pascals]
+        # We only want barometric pressure, don't care about altitude.
         # mpl3115.sealevel_pressure = 101325
 
     def ConnectToSyslog(self):
@@ -109,8 +116,8 @@ class TheApp:
             app_name = "dust",
             msg = message)
         # TODO handle ECONNECT exception
-        # HACK : because we're not using SSL (as required by rfc5424), we need
-        # a linefeed to terminate the message.
+        # HACK!!! Because we're not using SSL (specified by rfc5424),
+        # we need a linefeed to terminate the message.
         self.ws.socket.send(syslog_msg + b'\n')
 
     def WriteCsvHeaders(self):
@@ -153,8 +160,8 @@ class TheApp:
 
     def Sleep(self):
         for _ in range(self.sleepmin):
-            time.sleep(60)
-            app.SetDots(0,100,100)      # dark cyan
+            time.sleep(60)              # [seconds]
+            app.SetDots(0,100,100)      # cyan
             time.sleep(0.1)
             app.SetDots(0,0,0)          # off
 
