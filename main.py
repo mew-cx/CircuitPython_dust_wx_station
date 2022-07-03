@@ -37,6 +37,7 @@ import digitalio
 import microcontroller
 import gc
 import sys
+from micropython import const
 
 import neopixel
 import adafruit_ds1307
@@ -55,16 +56,16 @@ class TheApp:
     "The top-level application code for the 'dust' weather station"
 
     def __init__(self):
-        self.dots    = None     # string of dotstar LEDs
-        self.NUM_DOTS = 4       # how many LEDs in the dotstar string
-        self.ds1307  = None     # battery-backed real-time clock
-        self.htu21d  = None     # humidity/temperature sensor
-        self.mpl3115 = None     # barometric pressure sensor
-        self.sps30   = None     # particulate matter sensor
-        self.HOST    = "pink"   # syslog server name
-        self.PORT    = 514      # syslog server port
-        self.ws      = None     # wifi_socket to syslog server
-        self.sleepmin= 5        # minutes to sleep between measurements
+        self.dots       = None          # string of dotstar LEDs
+        self.ds1307     = None          # battery-backed real-time clock
+        self.htu21d     = None          # humidity/temperature sensor
+        self.mpl3115    = None          # barometric pressure sensor
+        self.sps30      = None          # particulate matter sensor
+        self.ws         = None          # wifi_socket to syslog server
+        self.HOST       = const("pink") # syslog server name
+        self.PORT       = const(514)    # syslog server port
+        self.NUM_DOTS   = const(4)      # how many LEDs in the dotstar string
+        self.SLEEP_MINS = const(5)      # sleep between measurements [minutes]
 
     def SetDots(self, r, g, b):
         for dot in range(self.NUM_DOTS):
@@ -159,7 +160,7 @@ class TheApp:
         return result
 
     def Sleep(self):
-        for _ in range(self.sleepmin):
+        for _ in range(self.SLEEP_MINS):
             time.sleep(60)              # [seconds]
             app.SetDots(0,100,100)      # cyan
             time.sleep(0.1)
