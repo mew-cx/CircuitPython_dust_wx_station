@@ -37,6 +37,7 @@ import digitalio
 import microcontroller
 import gc
 import sys
+import micropython
 from micropython import const
 
 import neopixel
@@ -49,6 +50,8 @@ from adafruit_sps30.i2c import SPS30_I2C
 import rfc5424
 import wifi_socket
 from secrets import secrets
+
+micropython.opt_level(0)
 
 #############################################################################
 
