@@ -75,8 +75,9 @@ class TheApp:
             self.dots[dot] = (r,g,b)
 
     def InitializeDevices(self):
-        # hardware SPI controls the 4-LED dotstar strip
-        self.dots = adafruit_dotstar.DotStar(board.SCK, board.MOSI, self.NUM_DOTS, brightness=0.1)
+        # SPI controls the 4-LED dotstar strip
+        self.dots = adafruit_dotstar.DotStar(
+            board.SCK, board.MOSI, self.NUM_DOTS, brightness=0.1)
 
         # Turn off onboard D13 red LED to save power
         led = digitalio.DigitalInOut(board.LED)
