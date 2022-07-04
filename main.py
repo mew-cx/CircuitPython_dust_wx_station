@@ -131,9 +131,10 @@ class TheApp:
             app_name = "dust",
             msg = message)
         # TODO handle ECONNECT exception
+        self.ws.socket.send(syslog_msg)
         # HACK!!! Because we're not using SSL (specified by rfc5424),
         # we need a linefeed to terminate the message.
-        self.ws.socket.send(syslog_msg + b'\n')
+        self.ws.socket.send(b'\n')
 
     def WriteCsvHeaders(self):
         "Write column headers for CSV data via syslog"
