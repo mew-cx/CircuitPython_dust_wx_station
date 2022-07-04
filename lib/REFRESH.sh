@@ -6,7 +6,8 @@ SRC_ROOT="../HIDE"
 TGT_DIR="$(pwd -P)"
 
 SRC_DIR="${SRC_ROOT}/adafruit-circuitpython-bundle-20220630/lib/"
-for i in adafruit_dotstar.mpy adafruit_ds1307.mpy adafruit_htu21d.mpy adafruit_mpl3115a2.mpy adafruit_register neopixel.mpy
+for i in adafruit_dotstar.mpy adafruit_ds1307.mpy adafruit_htu21d.mpy \
+    adafruit_mpl3115a2.mpy adafruit_register neopixel.mpy adafruit_ntp.mpy
 do
     echo "refreshing $i"
     [ -e "${SRC_DIR:?}/$i" ] || { echo "Source '$i' not found" >&2; exit 1; }
