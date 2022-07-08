@@ -16,15 +16,15 @@ using syslog's "local3.info" priority (facility "local3", severity "info").
 Other non-data messages (e.g. status, error) will use a different severity.
 
 On the receiving end, pink's syslog is configured to write "local3.info"
-CSV data messages to the /var/www/html/dust/logs/local3.csv file, which
-is accessible using pink's webserver at http://pink/dust/logs/
+CSV data messages to the pink:/var/www/html/dust/logs/local3.csv file,
+which is accessible from pink's webserver at http://pink/dust/logs/
 Any "local3" messages with different severity (i.e. not "info") will be
-written to a separate /var/log/local3.log file.
-See /etc/rsyslog.d/local3.conf for configuration details.
+written to a separate pink:/var/log/local3.log file.
+See pink:/etc/rsyslog.d/local3.conf for configuration details.
 
 To prevent those datafiles from growing forever, pink's logrotate periodically
-archives collected data and creates empty files for new data.
-See /etc/logrotate.d/rsyslog-local3 for configuration details.
+archives collected datafiles and creates empty files for new data.
+See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 
 See hardware_notes.txt for sensor and interconnection details.
 '''
@@ -132,7 +132,7 @@ class TheApp:
             msg = message)
         # TODO handle ECONNECT exception
         self.ws.socket.send(syslog_msg)
-        # HACK!!! Because we're not using SSL (specified by rfc5424),
+        # HACK!!! Because we're not using SSL (required by rfc5424),
         # we need a linefeed to terminate the message.
         self.ws.socket.send(b'\n')
 
