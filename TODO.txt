@@ -5,13 +5,18 @@ Start/Stop socket
 
 Start/Stop wifi connection?
 
-ensure D13 led, external i2c power, and neopixel are unpowered.
+unpower D13 led, external i2c power.  disable board.NEOPIXEL_POWER
 
-use watchdog to ensure running
+use watchdog to ensure running?
 
-use deep sleep to save power?
+use deep sleep to save power?  sleep the SPS30
 
 check on mpl read protocol, to ensure it doesn't block.
+
+TODO what other shutdown tasks?
+TODO prepare to sleep
+TODO wake up from sleep
+TODO periodic fan cleaning
 
 in the header:
     board.board_id
@@ -52,5 +57,22 @@ bytearray(b'\xc7\xfd\x1aI\xb8g')
 microcontroller.ResetReason.SOFTWARE
 >>> str(microcontroller.cpu.reset_reason)
 'microcontroller.ResetReason.SOFTWARE'
+
+=============================================================================
+Catch network exceptions.  When modem was rebooted...
+# TODO handle ECONNECT exception
+
+b'<158>1 2022-07-08T03:31:32Z 192.168.1.65 dust - - - "2022-07-08T03:31:32Z",15.5,68.7,74535,0.464,1.0,1.0,1.0,1.0,7,8,8,8,8'
+b'<158>1 2022-07-08T03:36:33Z - dust - - - "2022-07-08T03:36:33Z",15.3,69.3,74547,0.474,0.9,1.0,1.0,1.0,6,7,7,7,7'
+Traceback (most recent call last):
+  File "code.py", line 4, in <module>
+  File "main.py", line 212, in <module>
+  File "main.py", line 149, in WriteCsvData
+  File "main.py", line 134, in WriteToSyslog
+OSError: [Errno 113] ECONNABORTED
+
+Code done running.
+
+Press any key to enter the REPL. Use CTRL-D to reload.
 
 =============================================================================
