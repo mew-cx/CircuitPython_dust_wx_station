@@ -39,8 +39,6 @@ import sys
 import micropython
 from micropython import const
 import microcontroller
-#from microcontroller import watchdog as wdt
-#import watchdog
 
 import neopixel
 import adafruit_ds1307
@@ -107,14 +105,6 @@ class TheApp:
 
         # We only want barometric pressure, don't care about altitude.
         # mpl3115.sealevel_pressure = 101325
-
-        # Configure watchdog for twice our usual sleep interval
-        #wdt.timeout = 2 * self.SLEEP_MINS * 60  # [seconds]
-        #wdt.mode = watchdog.WatchDogMode.REBOOT
-
-    def FeedWatchdog(self):
-        #wdt.feed()
-        pass
 
     def ConnectToSyslog(self):
         "Create a socket to the syslog server"
@@ -207,7 +197,6 @@ app.WriteToSyslog("BOOT {} {}".format(
 app.WriteCsvHeaders()
 while True:
     app.SetDots(0,0,255)        # blue
-    #app.FeedWatchdog()
     result = app.AcquireData()
     app.WriteCsvData(result)
     gc.collect()
