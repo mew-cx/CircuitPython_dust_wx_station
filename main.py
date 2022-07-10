@@ -73,9 +73,12 @@ class TheApp:
         self.NUM_DOTS   = const(4)      # how many LEDs in the dotstar string
         self.SLEEP_MINS = const(5)      # sleep between measurements [minutes]
 
-    def SetDots(self, r, g, b):
-        for dot in range(self.NUM_DOTS):
-            self.dots[dot] = (r,g,b)
+    def SetDots(self, *args):
+        if not len(args):
+            self.dots.fill(0)
+        else:
+            for i in range(len(args)):
+                self.dots[i] = args[i]
 
     def InitializeDevices(self):
         # SPI controls the 4-LED dotstar strip
@@ -170,14 +173,14 @@ class TheApp:
     def Sleep(self):
         for _ in range(self.SLEEP_MINS):
             time.sleep(60)              # [seconds]
-            app.SetDots(0,100,100)      # cyan
+            app.SetDots(0x008080, 0x008080)
             time.sleep(0.1)
-            app.SetDots(0,0,0)          # off
+            app.SetDots()
 
     def Shutdown(self):
 #        self.WriteToSyslog(severity=rfc5424.Severity.NOTICE,
 #            "TheApp.Shutdown")
-        self.SetDots(0,0,0)     # off
+        self.SetDots()
         # TODO what other shutdown tasks?
 
 #############################################################################
@@ -189,7 +192,7 @@ class TheApp:
 
 app = TheApp()
 app.InitializeDevices()
-app.SetDots(0,255,0)            # green
+app.SetDots(0xff0000, 0x00ff00, 0x0000ff, 0xffffff)
 app.ConnectToSyslog()
 
 app.WriteToSyslog("BOOT {} {}".format(
@@ -200,11 +203,11 @@ app.WriteToSyslog("BOOT {} {}".format(
 app.WriteCsvHeaders()
 
 while True:
-    app.SetDots(0,0,255)        # blue
+    app.SetDots(255, 255, 255, 255)
     result = app.AcquireData()
     app.WriteCsvData(result)
     gc.collect()
-    app.SetDots(0,0,0)          # off
+    app.SetDots()
 
     # TODO prepare to sleep
     app.Sleep()
