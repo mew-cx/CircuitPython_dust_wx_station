@@ -14,21 +14,20 @@ We only implement IPv4.
 
 import wifi
 import socketpool
-import ipaddress
+#import ipaddress
 
 __version__ = "0.0.0.0"
 __repo__ = "https://github.com/mew-cx/dust_runtime.git"
 
 #############################################################################
 
-def ConnectToAP(self, ssid, password, timeout=5):
+def ConnectToAP(ssid, password):
     print("connecting to AP", ssid)
     wifi.radio.connect(ssid, password)
     return wifi.radio.ipv4_address
 
-def ConnectToSocket(self, host, port):
+def ConnectToSocket(host, port, timeout=5):
     pool = socketpool.SocketPool(wifi.radio)
-    print("repr(pool)", pool)
 
     #addr_info = pool.getaddrinfo(host, port)
     #print("repr addr_info", repr(addr_info))
@@ -36,11 +35,7 @@ def ConnectToSocket(self, host, port):
     #print("server_ipv4", server_ipv4, "(server)")
     #print("ping server_ipv4:", wifi.radio.ping(server_ipv4), "ms")
 
-    print("creating socket")
     sock = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
-    print("repr(sock)", sock)
-
-    print("connecting to socket")
     sock.settimeout(timeout)
     sock.connect((host, port))
     return sock

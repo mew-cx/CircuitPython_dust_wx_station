@@ -73,6 +73,34 @@ OSError: [Errno 113] ECONNABORTED
 
 Code done running.
 
-Press any key to enter the REPL. Use CTRL-D to reload.
+=============================================================================
+
+code.py output:
+connecting to AP e7
+Traceback (most recent call last):
+  File "code.py", line 4, in <module>
+  File "main.py", line 199, in <module>
+  File "main.py", line 117, in ConnectToAP
+  File "/lib/wifi_socket.py", line 27, in ConnectToAP
+ConnectionError: No network with that ssid
+"wifi.radio.connect('foo', password)"
+
+Code done running.
+
+=============================================================================
+
+Auto-reload is on. Simply save files over USB to run them or enter REPL to disable.
+code.py output:
+connecting to AP e7
+self.ipaddr 192.168.1.65 (ours)
+Traceback (most recent call last):
+  File "code.py", line 4, in <module>
+  File "main.py", line 201, in <module>
+  File "main.py", line 121, in SocketToSyslog
+  File "/lib/wifi_socket.py", line 41, in ConnectToSocket
+OSError: [Errno 118] EHOSTUNREACH
+"sock.connect(('foo', port))"
+
+Code done running.
 
 =============================================================================
