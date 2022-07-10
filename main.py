@@ -41,7 +41,6 @@ import gc
 import sys
 import micropython
 from micropython import const
-import microcontroller
 
 import neopixel
 import adafruit_ds1307
@@ -201,9 +200,8 @@ app.ConnectToAP()
 
 with app.SocketToSyslog() as sock:
     app.WriteToSyslog(sock,
-        "BOOT {} {} {}".format(
+        "BOOT {} {}".format(
             __version__,
-            microcontroller.cpu.reset_reason,
             sys.implementation),
         severity=rfc5424.Severity.NOTICE)
     app.WriteCsvHeaders(sock)
