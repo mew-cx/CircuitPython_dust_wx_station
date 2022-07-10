@@ -104,3 +104,15 @@ OSError: [Errno 118] EHOSTUNREACH
 Code done running.
 
 =============================================================================
+
+b'<158>1 2022-07-10T22:56:29Z 192.168.1.65 dust - - - "2022-07-10T22:56:28Z",24.9,34.2,74529,0.491,1.1,1.2,1.2,1.2,8,9,9,9,9'
+Traceback (most recent call last):
+  File "code.py", line 4, in <module>
+  File "main.py", line 219, in <module>
+  File "main.py", line 126, in SocketToSyslog
+OSError: [Errno 118] EHOSTUNREACH
+"sock.connect((self.HOST, self.PORT))"
+
+Code done running.
+
+=============================================================================
