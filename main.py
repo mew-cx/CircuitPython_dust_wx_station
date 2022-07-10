@@ -29,6 +29,9 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
+__version__ = "0.1.2.0"
+__repo__ = "https://github.com/mew-cx/dust_runtime.git"
+
 import busio
 import time
 import board
