@@ -29,7 +29,7 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
-__version__ = "0.1.2.1"
+__version__ = "0.1.2.2"
 __repo__ = "https://github.com/mew-cx/dust_runtime.git"
 
 import busio
@@ -201,7 +201,8 @@ app.ConnectToAP()
 
 with app.SocketToSyslog() as sock:
     app.WriteToSyslog(sock,
-        "BOOT {} {}".format(
+        "BOOT {} {} {}".format(
+            __version__,
             microcontroller.cpu.reset_reason,
             sys.implementation),
         severity=rfc5424.Severity.NOTICE)
