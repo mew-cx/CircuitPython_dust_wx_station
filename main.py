@@ -29,7 +29,7 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
-__version__ = "0.1.2.2"
+__version__ = "0.1.2.3"
 __repo__ = "https://github.com/mew-cx/dust_runtime.git"
 
 import busio
@@ -41,6 +41,8 @@ import gc
 import sys
 import micropython
 from micropython import const
+import wifi
+import socketpool
 
 import neopixel
 import adafruit_ds1307
@@ -50,7 +52,6 @@ import adafruit_mpl3115a2
 from adafruit_sps30.i2c import SPS30_I2C
 
 import rfc5424
-import wifi_socket
 from secrets import secrets
 
 micropython.opt_level(0)
@@ -114,11 +115,16 @@ class TheApp:
 
     def ConnectToAP(self):
         "Connect to wifi access point (AP) with our secret credentials"
-        self.ipaddr = wifi_socket.ConnectToAP(secrets["ssid"], secrets["password"])
-        print("self.ipaddr", self.ipaddr, "(ours)")
+        wifi.radio.connect(secrets["ssid"], secrets["password"])
+        self.ipaddr = wifi.radio.ipv4_address
+        print("our ipaddr", self.ipaddr)
 
     def SocketToSyslog(self):
-        return wifi_socket.ConnectToSocket(self.HOST, self.PORT)
+        pool = socketpool.SocketPool(wifi.radio)
+        sock = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
+        sock.settimeout(5)      # [seconds]
+        sock.connect((self.HOST, self.PORT))
+        return sock
 
     def WriteToSyslog(self, sock, message, severity=rfc5424.Severity.INFO):
         syslog_msg = rfc5424.FormatSyslog(
