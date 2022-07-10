@@ -29,7 +29,7 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
-__version__ = "0.1.2.0"
+__version__ = "0.1.2.1"
 __repo__ = "https://github.com/mew-cx/dust_runtime.git"
 
 import busio
@@ -67,7 +67,7 @@ class TheApp:
         self.htu21d     = None          # humidity/temperature sensor
         self.mpl3115    = None          # barometric pressure sensor
         self.sps30      = None          # particulate matter sensor
-        self.ws         = None          # wifi_socket to syslog server
+        self.ipaddr     = None          # our IP address
         self.HOST       = const("pink") # syslog server name
         self.PORT       = const(514)    # syslog server port
         self.NUM_DOTS   = const(4)      # how many LEDs in the dotstar string
@@ -112,37 +112,40 @@ class TheApp:
         # We only want barometric pressure, don't care about altitude.
         # mpl3115.sealevel_pressure = 101325
 
-    def ConnectToSyslog(self):
-        "Create a socket to the syslog server"
-        self.ws = wifi_socket.WifiSocket(self.HOST, self.PORT)
-        self.ws.ConnectToAP(secrets["ssid"], secrets["password"])
-        self.ws.ConnectToSocket()
+    def ConnectToAP(self):
+        "Connect to wifi access point (AP) with our secret credentials"
+        self.ipaddr = wifi_socket.ConnectToAP(secrets["ssid"], secrets["password"])
+        print("self.ipaddr", self.ipaddr, "(ours)")
 
-    def WriteToSyslog(self, message, severity=rfc5424.Severity.INFO):
+    def SocketToSyslog(self):
+        return wifi_socket.ConnectToSocket(self.HOST, self.PORT)
+
+    def WriteToSyslog(self, sock, message, severity=rfc5424.Severity.INFO):
         syslog_msg = rfc5424.FormatSyslog(
             facility = rfc5424.Facility.LOCAL3,
             severity = severity,
             timestamp = rfc5424.FormatTimestamp(self.ds1307.datetime),
-            hostname = self.ws.ipaddr,
+            hostname = self.ipaddr,
             app_name = "dust",
             msg = message)
         # TODO handle ECONNECT exception
-        self.ws.socket.send(syslog_msg)
+        sock.send(syslog_msg)
         # HACK!!! Because we're not using SSL (required by rfc5424),
         # we need a linefeed to terminate the message.
-        self.ws.socket.send(b'\n')
+        sock.send(b'\n')
 
-    def WriteCsvHeaders(self):
+    def WriteCsvHeaders(self, sock):
         "Write column headers for CSV data via syslog"
-        self.WriteToSyslog('"timestamp","temp[C]","RH[%]","pres[pa]","tps[um]",' \
-                      '"1.0um mass[ug/m^3]","2.5um mass[ug/m^3]","4.0um mass[ug/m^3]",' \
-                      '"10um mass[ug/m^3]",' \
-                      '"0.5um count[#/cm^3]","1.0um count[#/cm^3]","2.5um count[#/cm^3]",' \
-                      '"4.0um count[#/cm^3]","10um count[#/cm^3]"')
+        self.WriteToSyslog(sock,
+            '"timestamp","temp[C]","RH[%]","pres[pa]","tps[um]",' \
+            '"1.0um mass[ug/m^3]","2.5um mass[ug/m^3]","4.0um mass[ug/m^3]",' \
+            '"10um mass[ug/m^3]",' \
+            '"0.5um count[#/cm^3]","1.0um count[#/cm^3]","2.5um count[#/cm^3]",' \
+            '"4.0um count[#/cm^3]","10um count[#/cm^3]"')
 
-    def WriteCsvData(self, csv_msg):
+    def WriteCsvData(self, sock, csv_msg):
         "Write sensor data in CSV format via syslog"
-        self.WriteToSyslog(csv_msg)
+        self.WriteToSyslog(sock, csv_msg)
 
     def AcquireData(self):
 
@@ -193,19 +196,23 @@ class TheApp:
 app = TheApp()
 app.InitializeDevices()
 app.SetDots(0xff0000, 0x00ff00, 0x0000ff, 0xffffff)
-app.ConnectToSyslog()
+app.ConnectToAP()
 
-app.WriteToSyslog("BOOT {} {}".format(
-    microcontroller.cpu.reset_reason,
-    sys.implementation),
-    severity=rfc5424.Severity.NOTICE)
-
-app.WriteCsvHeaders()
+with app.SocketToSyslog() as sock:
+    app.WriteToSyslog(sock,
+        "BOOT {} {}".format(
+            microcontroller.cpu.reset_reason,
+            sys.implementation),
+        severity=rfc5424.Severity.NOTICE)
+    app.WriteCsvHeaders(sock)
 
 while True:
     app.SetDots(255, 255, 255, 255)
     result = app.AcquireData()
-    app.WriteCsvData(result)
+
+    with app.SocketToSyslog() as sock:
+        app.WriteCsvData(sock, result)
+
     gc.collect()
     app.SetDots()
 

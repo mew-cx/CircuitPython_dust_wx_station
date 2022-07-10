@@ -21,48 +21,28 @@ __repo__ = "https://github.com/mew-cx/dust_runtime.git"
 
 #############################################################################
 
-class WifiSocket:
+def ConnectToAP(self, ssid, password, timeout=5):
+    print("connecting to AP", ssid)
+    wifi.radio.connect(ssid, password)
+    return wifi.radio.ipv4_address
 
-    def __init__(self, host, port):
-        self._host = host
-        self._port = port
-        self._socket = None
+def ConnectToSocket(self, host, port):
+    pool = socketpool.SocketPool(wifi.radio)
+    print("repr(pool)", pool)
 
-    def ConnectToAP(self, ssid, password):
-        print("connecting to AP", ssid)
-        wifi.radio.connect(ssid, password)
-        print("WifiSocket.ipaddr", self.ipaddr, "(ours)")
+    #addr_info = pool.getaddrinfo(host, port)
+    #print("repr addr_info", repr(addr_info))
+    #server_ipv4 = ipaddress.ip_address(addr_info[0][4][0])
+    #print("server_ipv4", server_ipv4, "(server)")
+    #print("ping server_ipv4:", wifi.radio.ping(server_ipv4), "ms")
 
-    def ConnectToSocket(self):
-        pool = socketpool.SocketPool(wifi.radio)
+    print("creating socket")
+    sock = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
+    print("repr(sock)", sock)
 
-        addr_info = pool.getaddrinfo(self._host, self._port)
-        print("repr addr_info", repr(addr_info))
-        server_ipv4 = ipaddress.ip_address(addr_info[0][4][0])
-        print("server_ipv4", server_ipv4, "(server)")
-        print("ping server_ipv4:", wifi.radio.ping(server_ipv4), "ms")
-
-        print("creating socket")
-        self._socket = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
-
-        print("connecting to socket")
-        TIMEOUT = 5
-        self._socket.settimeout(TIMEOUT)
-        self._socket.connect((self._host, self._port))
-
-    def deinit(self):
-        if self._socket:
-            self._socket.close()
-        self._socket = None
-        # TODO what else to go here? how to release pool and radio?
-
-    @property   # read-only
-    def ipaddr(self):
-        "our ip address"
-        return wifi.radio.ipv4_address
-
-    @property   # read-only
-    def socket(self):
-        return self._socket
+    print("connecting to socket")
+    sock.settimeout(timeout)
+    sock.connect((host, port))
+    return sock
 
 # vim: set sw=4 ts=8 et ic ai:
