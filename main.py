@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-# dust_main.py
+# main.py
 
 '''
 This is the main application for collecting sensor data from our "dust"
@@ -198,6 +198,7 @@ app.WriteToSyslog("BOOT {} {}".format(
     severity=rfc5424.Severity.NOTICE)
 
 app.WriteCsvHeaders()
+
 while True:
     app.SetDots(0,0,255)        # blue
     result = app.AcquireData()
