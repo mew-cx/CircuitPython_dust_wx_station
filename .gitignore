@@ -1,14 +1,24 @@
 # .gitignore
 
-# Don't commit these CircuitPython files to git:
-boot_out.txt
 secrets*
 
-# Other cruft to keep out of git repos:
+boot_out.txt
+.Trashes
+.fseventsd/
+.metadata_never_index
+
+System Volume Information/
+$RECYCLE.BIN/
 __pycache__/
-HIDE/
+
 *.log
 *.swp
 *~
+
+HIDE/
+PRINT
+grep_*txt
+REFRESH.sh.bak
+liblist.txt
 
 # eof
