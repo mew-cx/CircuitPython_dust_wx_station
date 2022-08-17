@@ -29,7 +29,7 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
-__version__ = "0.1.2.3"
+__version__ = "0.1.2.4"
 __repo__ = "https://github.com/mew-cx/dust_runtime.git"
 
 import busio
@@ -69,6 +69,7 @@ class TheApp:
         self.sps30      = None          # particulate matter sensor
         self.ipaddr     = None          # our IP address
         self.HOST       = const("pink") # syslog server name
+        self.HOST       = const("192.168.1.159") # syslog server name
         self.PORT       = const(514)    # syslog server port
         self.NUM_DOTS   = const(4)      # how many LEDs in the dotstar string
         self.SLEEP_MINS = const(5)      # sleep between measurements [minutes]
