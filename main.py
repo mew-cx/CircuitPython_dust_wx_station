@@ -29,7 +29,7 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
-__version__ = "0.1.2.4"
+__version__ = "0.1.2.5"
 __repo__ = "https://github.com/mew-cx/dust_runtime.git"
 
 import busio
@@ -205,20 +205,26 @@ app.InitializeDevices()
 app.SetDots(0xff0000, 0x00ff00, 0x0000ff, 0xffffff)
 app.ConnectToAP()
 
-with app.SocketToSyslog() as sock:
-    app.WriteToSyslog(sock,
-        "BOOT {} {}".format(
-            __version__,
-            sys.implementation),
-        severity=rfc5424.Severity.NOTICE)
-    app.WriteCsvHeaders(sock)
+try:
+    with app.SocketToSyslog() as sock:
+        app.WriteToSyslog(sock,
+            "BOOT {} {}".format(
+                __version__,
+                sys.implementation),
+            severity=rfc5424.Severity.NOTICE)
+        app.WriteCsvHeaders(sock)
+except:
+    print("socket error1")
 
 while True:
     app.SetDots(255, 255, 255, 255)
     result = app.AcquireData()
 
-    with app.SocketToSyslog() as sock:
-        app.WriteCsvData(sock, result)
+    try:
+        with app.SocketToSyslog() as sock:
+            app.WriteCsvData(sock, result)
+    except:
+        print("socket error2")
 
     gc.collect()
     app.SetDots()
