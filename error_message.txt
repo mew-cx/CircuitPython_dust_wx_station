@@ -38,3 +38,16 @@ b'<158>1 2022-08-21T00:08:11Z 192.168.1.65 dust - - - "2022-08-21T00:08:10Z",12.
 
 =============================================================================
 
+code.py output:
+our ipaddr 192.168.1.65
+socket error1
+Traceback (most recent call last):
+  File "code.py", line 4, in <module>
+  File "main.py", line 221, in <module>
+  File "main.py", line 159, in AcquireData
+  File "adafruit_ds1307.py", line 128, in datetime
+  File "adafruit_register/i2c_bcd_datetime.py", line 69, in __get__
+OSError: [Errno 19] No such device
+
+=============================================================================
+
