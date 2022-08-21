@@ -35,7 +35,7 @@ class Severity:
 def FormatTimestamp(ts = None):
     "Sect 6.2.3 specifies a subset of RFC3339 date formatting."
     if not ts:
-        ts = time.localtime
+        ts = time.localtime()
     result = "{:04}-{:02}-{:02}T{:02}:{:02}:{:02}Z".format(
         ts.tm_year, ts.tm_mon, ts.tm_mday,
         ts.tm_hour, ts.tm_min, ts.tm_sec)
