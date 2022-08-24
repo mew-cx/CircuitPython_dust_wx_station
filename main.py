@@ -79,12 +79,13 @@ class TheApp:
         self.NUM_DOTS   = const(4)      # how many LEDs in the dotstar string
         self.SLEEP_MINS = const(5)      # sleep between measurements [minutes]
 
-    def SetDots(self, *args):
-        if args:
-            for i,val in enumerate(args):
-                self.dots[i] = val
-        else:
+    def SetDots(self, fill=None, *args):
+        if fill:
+            self.dots.fill(fill)
+        elif not len(args):
             self.dots.fill(0)
+        else:
+            (self.dots[i] for i,val in enumerate(args))
 
     def InitializeDevices(self):
         # SPI controls the 4-LED dotstar strip
