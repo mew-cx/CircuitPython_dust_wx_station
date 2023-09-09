@@ -1,0 +1,27 @@
+Adafruit CircuitPython 7.3.0 on 2022-05-23; Adafruit Feather ESP32S2 with ESP32S2
+>>> import pin_map
+board.A0 board.D18
+board.A1 board.D17
+board.A2 board.D16
+board.A3 board.D15
+board.A4 board.D14
+board.A5 board.D8
+board.BOOT0 board.BUTTON board.D0
+board.D10
+board.D11
+board.D12
+board.D13 board.L board.LED
+board.D3 board.SDA
+board.D35 board.MOSI
+board.D36 board.SCK
+board.D37 board.MISO
+board.D38 board.RX
+board.D39 board.TX
+board.D4 board.SCL
+board.D5
+board.D6
+board.D7 board.I2C_POWER
+board.D9
+board.NEOPIXEL
+board.NEOPIXEL_POWER
+>>>
