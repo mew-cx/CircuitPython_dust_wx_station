@@ -1,0 +1,4 @@
+# settings.toml
+
+CIRCUITPY_WIFI_SSID = "e7"
+CIRCUITPY_WIFI_PASSWORD = "the--daring--dragoon"
