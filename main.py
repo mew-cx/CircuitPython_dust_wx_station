@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2022 Michael Weiblen http://mew.cx/
+# SPDX-FileCopyrightText: 2022-2023 Michael Weiblen http://mew.cx/
 #
 # SPDX-License-Identifier: MIT
 
@@ -29,8 +29,8 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
-__version__ = "0.1.2.5"
-__repo__ = "https://github.com/mew-cx/dust_runtime.git"
+__version__ = "0.1.2.6"
+__repo__ = "https://github.com/mew-cx/CircuitPython_dust_wx_station.git"
 
 import busio
 import time
@@ -75,11 +75,11 @@ class TheApp:
         self.SLEEP_MINS = const(5)      # sleep between measurements [minutes]
 
     def SetDots(self, *args):
-        if not len(args):
-            self.dots.fill(0)
+        if args:
+            for i,val in enumerate(args):
+                self.dots[i] = val
         else:
-            for i in range(len(args)):
-                self.dots[i] = args[i]
+            self.dots.fill(0)
 
     def InitializeDevices(self):
         # SPI controls the 4-LED dotstar strip
@@ -183,8 +183,8 @@ class TheApp:
     def Sleep(self):
         for _ in range(self.SLEEP_MINS):
             time.sleep(60)              # [seconds]
-            app.SetDots(0x008080, 0x008080)
-            time.sleep(0.1)
+            #app.SetDots(0x008080, 0x008080)
+            #time.sleep(0.1)
             app.SetDots()
 
     def Shutdown(self):
@@ -202,8 +202,9 @@ class TheApp:
 
 app = TheApp()
 app.InitializeDevices()
-app.SetDots(0xff0000, 0x00ff00, 0x0000ff, 0xffffff)
+app.SetDots(0xffffff, 0xff0000, 0x00ff00, 0x0000ff)
 app.ConnectToAP()
+app.SetDots(0x00ff00, 0x00ff00, 0x00ff00, 0x00ff00)
 
 try:
     with app.SocketToSyslog() as sock:
@@ -215,9 +216,9 @@ try:
         app.WriteCsvHeaders(sock)
 except:
     print("socket error1")
+    app.SetDots(0xff0000, 0, 0, 0)
 
 while True:
-    app.SetDots(255, 255, 255, 255)
     result = app.AcquireData()
 
     try:
@@ -225,6 +226,7 @@ while True:
             app.WriteCsvData(sock, result)
     except:
         print("socket error2")
+        app.SetDots(0, 0, 0, 0xff0000)
 
     gc.collect()
     app.SetDots()

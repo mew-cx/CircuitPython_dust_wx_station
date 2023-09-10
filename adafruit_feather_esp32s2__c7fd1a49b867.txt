@@ -1,0 +1,91 @@
+hinv version : 0.0.6.0		repo : https://github.com/mew-cx/CircuitPython_hinv
+board.board_id : adafruit_feather_esp32s2
+uid : c7fd1a49b867
+sys.implementation : (name='circuitpython', version=(7, 3, 2), mpy=517) MPY_VERSION=5 flags=0x02 arch=0
+sys.path : ['', '/', '/lib']
+sys.platform : Espressif
+sys.version : 3.4.0
+sys.modules : {'hinv': <module 'hinv' from 'hinv.py'>}
+os.uname() : (sysname='ESP32S2', nodename='ESP32S2', release='7.3.2', version='7.3.2 on 2022-07-20', machine='Adafruit Feather ESP32S2 with ESP32S2')
+memory : 1993.4KiB free of 2000.3KiB total (99.7%)
+storage : 853.5KiB free of 940.5KiB total (90.7%)
+len(nvm) : 8192
+
+dir(board) :
+['__class__', '__name__', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'BOOT0', 'BUTTON', 'D0', 'D10', 'D11', 'D12', 'D13', 'D14', 'D15', 'D16', 'D17', 'D18', 'D3', 'D35', 'D36', 'D37', 'D38', 'D39', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'I2C', 'I2C_POWER', 'L', 'LED', 'MISO', 'MOSI', 'NEOPIXEL', 'NEOPIXEL_POWER', 'RX', 'SCK', 'SCL', 'SDA', 'SPI', 'STEMMA_I2C', 'TX', 'UART', 'board_id']
+
+dir(wifi) :
+['__class__', '__init__', '__name__', 'AuthMode', 'Monitor', 'Network', 'Packet', 'Radio', 'radio']
+
+PinMap() {
+microcontroller.GPIO0	board.BOOT0	board.BUTTON	board.D0
+microcontroller.GPIO1
+microcontroller.GPIO10	board.D10
+microcontroller.GPIO11	board.D11
+microcontroller.GPIO12	board.D12
+microcontroller.GPIO13	board.D13	board.L	board.LED
+microcontroller.GPIO14	board.A4	board.D14
+microcontroller.GPIO15	board.A3	board.D15
+microcontroller.GPIO16	board.A2	board.D16
+microcontroller.GPIO17	board.A1	board.D17
+microcontroller.GPIO18	board.A0	board.D18
+microcontroller.GPIO19
+microcontroller.GPIO2
+microcontroller.GPIO20
+microcontroller.GPIO21	board.NEOPIXEL_POWER
+microcontroller.GPIO26
+microcontroller.GPIO27
+microcontroller.GPIO28
+microcontroller.GPIO29
+microcontroller.GPIO3	board.D3	board.SDA
+microcontroller.GPIO30
+microcontroller.GPIO31
+microcontroller.GPIO32
+microcontroller.GPIO33	board.NEOPIXEL
+microcontroller.GPIO34
+microcontroller.GPIO35	board.D35	board.MOSI
+microcontroller.GPIO36	board.D36	board.SCK
+microcontroller.GPIO37	board.D37	board.MISO
+microcontroller.GPIO38	board.D38	board.RX
+microcontroller.GPIO39	board.D39	board.TX
+microcontroller.GPIO4	board.D4	board.SCL
+microcontroller.GPIO40
+microcontroller.GPIO41
+microcontroller.GPIO42
+microcontroller.GPIO43
+microcontroller.GPIO44
+microcontroller.GPIO45
+microcontroller.GPIO46
+microcontroller.GPIO5	board.D5
+microcontroller.GPIO6	board.D6
+microcontroller.GPIO7	board.D7	board.I2C_POWER
+microcontroller.GPIO8	board.A5	board.D8
+microcontroller.GPIO9	board.D9
+}
+help('modules') {
+__future__        digitalio         os                touchio
+__main__          displayio         paralleldisplay   traceback
+_asyncio          dualbank          ps2io             ulab
+adafruit_bus_device                 errno             pulseio           ulab
+adafruit_bus_device.i2c_device      espidf            pwmio             ulab.fft
+adafruit_bus_device.spi_device      fontio            qrio              ulab.linalg
+adafruit_pixelbuf framebufferio     rainbowio         ulab.numpy
+aesio             frequencyio       random            ulab.scipy
+alarm             gc                re                ulab.scipy.linalg
+analogio          getpass           rgbmatrix         ulab.scipy.optimize
+array             gifio             rotaryio          ulab.scipy.signal
+atexit            i2cperipheral     rtc               ulab.scipy.special
+audiobusio        imagecapture      sdcardio          ulab.utils
+audiocore         io                select            usb_cdc
+audiomixer        ipaddress         sharpdisplay      usb_hid
+binascii          json              socketpool        usb_midi
+bitbangio         keypad            ssl               uselect
+bitmaptools       math              storage           vectorio
+board             mdns              struct            watchdog
+builtins          microcontroller   supervisor        wifi
+busio             micropython       synthio           zlib
+canio             msgpack           sys
+collections       neopixel_write    terminalio
+countio           onewireio         time
+Plus any modules on the filesystem
+}
