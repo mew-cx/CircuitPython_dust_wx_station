@@ -29,8 +29,11 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
-__version__ = "0.1.2.6"
+__version__ = "0.1.2.9"
 __repo__ = "https://github.com/mew-cx/CircuitPython_dust_wx_station.git"
+__board_id__ = 'adafruit_feather_esp32s2' # board.board_id
+__impl_name__ = 'circuitpython'           # sys.implementation.name
+__impl_version__ = (9, 1, 0)              # sys.implementation.version
 
 import busio
 import time
@@ -54,7 +57,7 @@ from adafruit_sps30.i2c import SPS30_I2C
 import rfc5424
 from secrets import secrets
 
-micropython.opt_level(0)
+#micropython.opt_level(0)
 
 #############################################################################
 
@@ -203,6 +206,7 @@ class TheApp:
 app = TheApp()
 app.InitializeDevices()
 app.SetDots(0xffffff, 0xff0000, 0x00ff00, 0x0000ff)
+time.sleep(1)
 app.ConnectToAP()
 app.SetDots(0x00ff00, 0x00ff00, 0x00ff00, 0x00ff00)
 

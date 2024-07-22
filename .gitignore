@@ -4,6 +4,8 @@ secrets*
 
 boot_out.txt
 .Trashes
+.Trash-1000
+sd/
 .fseventsd/
 .metadata_never_index
 
