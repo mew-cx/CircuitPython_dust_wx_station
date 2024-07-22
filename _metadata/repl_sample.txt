@@ -1,26 +1,15 @@
-b'<158>1 2024-07-21T20:02:31Z 192.168.1.65 dust - - - "2024-07-21T20:02:31Z",21.0,48.4,74540,0.460,2.9,3.0,3.0,3.0,20,23,23,23,23'
-Traceback (most recent call last):
-  File "code.py", line 4, in <module>
-  File "main.py", line 235, in <module>
-  File "main.py", line 185, in Sleep
-KeyboardInterrupt: 
-
-Code done running.
-Auto-reload is on. Simply save files over USB to run them or enter REPL to disable.
-
-Press any key to enter the REPL. Use CTRL-D to reload.
-
-Adafruit CircuitPython 7.3.2 on 2022-07-20; Adafruit Feather ESP32S2 with ESP32S2
-soft reboot
+Adafruit CircuitPython 9.1.0 on 2024-07-10; Adafruit Feather ESP32S2 with ESP32S2
 
 Auto-reload is on. Simply save files over USB to run them or enter REPL to disable.
 code.py output:
-our ipaddr 192.168.1.65
-b"<157>1 2024-07-21T20:03:02Z 192.168.1.65 dust - - - BOOT 0.1.2.6 (name='circuitpython', version=(7, 3, 2), mpy=517)"
-b'<158>1 2024-07-21T20:03:02Z 192.168.1.65 dust - - - "timestamp","temp[C]","RH[%]","pres[pa]","tps[um]","1.0um mass[ug/m^3]","2.5um mass[ug/m^3]","4.0um mass[ug/m^3]","10um mass[ug/m^3]","0.5um count[#/cm^3]","1.0um count[#/cm^3]","2.5um count[#/cm^3]","4.0um count[#/cm^3]","10um count[#/cm^3]"'
-b'<158>1 2024-07-21T20:03:03Z 192.168.1.65 dust - - - "2024-07-21T20:03:03Z",21.1,47.8,74540,0.446,3.9,4.2,4.2,4.2,27,31,31,31,31'
+
+b"<157>1 2024-07-22T08:16:29Z 192.168.1.65 dust - - - BOOT 0.1.2.9 (name='circuitpython', version=(9, 1, 0), _machine='Adafruit Feather ESP32S2 with ESP32S2', _mpy=262)"
+b'<158>1 2024-07-22T08:16:29Z 192.168.1.65 dust - - - "timestamp","temp[C]","RH[%]","pres[pa]","tps[um]","1.0um mass[ug/m^3]","2.5um mass[ug/m^3]","4.0um mass[ug/m^3]","10um mass[ug/m^3]","0.5um count[#/cm^3]","1.0um count[#/cm^3]","2.5um count[#/cm^3]","4.0um count[#/cm^3]","10um count[#/cm^3]"'
+b'<158>1 2024-07-22T08:16:29Z 192.168.1.65 dust - - - "2024-07-22T08:16:29Z",23.1,37.6,743,0.732,10.2,14.1,16.9,17.4,62,77,81,82,82'
 Traceback (most recent call last):
   File "code.py", line 4, in <module>
-  File "main.py", line 235, in <module>
-  File "main.py", line 185, in Sleep
+  File "main.py", line 239, in <module>
+  File "main.py", line 188, in Sleep
 KeyboardInterrupt: 
+Code done running.
+Press any key to enter the REPL. Use CTRL-D to reload.
