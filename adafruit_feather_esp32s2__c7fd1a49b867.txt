@@ -1,21 +1,21 @@
-hinv version : 0.0.6.0		repo : https://github.com/mew-cx/CircuitPython_hinv
+hinv version : 0.0.6.0+		repo : https://github.com/mew-cx/CircuitPython_hinv
 board.board_id : adafruit_feather_esp32s2
 uid : c7fd1a49b867
-sys.implementation : (name='circuitpython', version=(7, 3, 2), mpy=517) MPY_VERSION=5 flags=0x02 arch=0
+sys.implementation : (name='circuitpython', version=(9, 1, 0), _machine='Adafruit Feather ESP32S2 with ESP32S2', _mpy=262) MPY_VERSION=6 flags=0x01 arch=0
 sys.path : ['', '/', '/lib']
 sys.platform : Espressif
-sys.version : 3.4.0
+sys.version : 3.4.0; CircuitPython 9.1.0 on 2024-07-10
 sys.modules : {'hinv': <module 'hinv' from 'hinv.py'>}
-os.uname() : (sysname='ESP32S2', nodename='ESP32S2', release='7.3.2', version='7.3.2 on 2022-07-20', machine='Adafruit Feather ESP32S2 with ESP32S2')
-memory : 1993.4KiB free of 2000.3KiB total (99.7%)
-storage : 853.5KiB free of 940.5KiB total (90.7%)
+os.uname() : (sysname='ESP32S2', nodename='ESP32S2', release='9.1.0', version='9.1.0 on 2024-07-10', machine='Adafruit Feather ESP32S2 with ESP32S2')
+memory : 1960.1KiB free of 1967.6KiB total (99.6%)
+storage : 841.0KiB free of 940.5KiB total (89.4%)
 len(nvm) : 8192
 
 dir(board) :
-['__class__', '__name__', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'BOOT0', 'BUTTON', 'D0', 'D10', 'D11', 'D12', 'D13', 'D14', 'D15', 'D16', 'D17', 'D18', 'D3', 'D35', 'D36', 'D37', 'D38', 'D39', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'I2C', 'I2C_POWER', 'L', 'LED', 'MISO', 'MOSI', 'NEOPIXEL', 'NEOPIXEL_POWER', 'RX', 'SCK', 'SCL', 'SDA', 'SPI', 'STEMMA_I2C', 'TX', 'UART', 'board_id']
+['__class__', '__name__', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'BOOT0', 'BUTTON', 'D0', 'D10', 'D11', 'D12', 'D13', 'D14', 'D15', 'D16', 'D17', 'D18', 'D3', 'D35', 'D36', 'D37', 'D38', 'D39', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'I2C', 'I2C_POWER', 'L', 'LED', 'MISO', 'MOSI', 'NEOPIXEL', 'NEOPIXEL_POWER', 'RX', 'SCK', 'SCL', 'SDA', 'SPI', 'STEMMA_I2C', 'TX', 'UART', '__dict__', 'board_id']
 
 dir(wifi) :
-['__class__', '__init__', '__name__', 'AuthMode', 'Monitor', 'Network', 'Packet', 'Radio', 'radio']
+['__class__', '__init__', '__name__', 'AuthMode', 'Monitor', 'Network', 'Packet', 'Radio', 'Station', '__dict__', 'radio']
 
 PinMap() {
 microcontroller.GPIO0	board.BOOT0	board.BUTTON	board.D0
@@ -63,29 +63,33 @@ microcontroller.GPIO8	board.A5	board.D8
 microcontroller.GPIO9	board.D9
 }
 help('modules') {
-__future__        digitalio         os                touchio
-__main__          displayio         paralleldisplay   traceback
-_asyncio          dualbank          ps2io             ulab
-adafruit_bus_device                 errno             pulseio           ulab
-adafruit_bus_device.i2c_device      espidf            pwmio             ulab.fft
-adafruit_bus_device.spi_device      fontio            qrio              ulab.linalg
-adafruit_pixelbuf framebufferio     rainbowio         ulab.numpy
-aesio             frequencyio       random            ulab.scipy
-alarm             gc                re                ulab.scipy.linalg
-analogio          getpass           rgbmatrix         ulab.scipy.optimize
-array             gifio             rotaryio          ulab.scipy.signal
-atexit            i2cperipheral     rtc               ulab.scipy.special
-audiobusio        imagecapture      sdcardio          ulab.utils
-audiocore         io                select            usb_cdc
-audiomixer        ipaddress         sharpdisplay      usb_hid
-binascii          json              socketpool        usb_midi
-bitbangio         keypad            ssl               uselect
-bitmaptools       math              storage           vectorio
-board             mdns              struct            watchdog
-builtins          microcontroller   supervisor        wifi
-busio             micropython       synthio           zlib
-canio             msgpack           sys
-collections       neopixel_write    terminalio
-countio           onewireio         time
+__future__        countio           memorymap         synthio
+__main__          digitalio         microcontroller   sys
+_asyncio          displayio         micropython       terminalio
+_pixelmap         epaperdisplay     msgpack           time
+adafruit_bus_device                 errno             neopixel_write    touchio
+adafruit_bus_device.i2c_device      espcamera         nvm               traceback
+adafruit_bus_device.spi_device      espidf            onewireio         ulab
+adafruit_pixelbuf espnow            os                ulab.numpy
+aesio             espulp            paralleldisplay   ulab.numpy.fft
+alarm             fontio            paralleldisplaybus                  ulab.numpy.linalg
+analogbufio       fourwire          ps2io             ulab.scipy
+analogio          framebufferio     pulseio           ulab.scipy.linalg
+array             frequencyio       pwmio             ulab.scipy.optimize
+atexit            gc                qrio              ulab.scipy.signal
+audiobusio        getpass           rainbowio         ulab.scipy.special
+audiocore         gifio             random            ulab.utils
+audiomixer        hashlib           re                usb
+audiomp3          i2cdisplaybus     rgbmatrix         usb.core
+binascii          io                rotaryio          usb_cdc
+bitbangio         ipaddress         rtc               usb_hid
+bitmaptools       jpegio            sdcardio          usb_midi
+board             json              select            vectorio
+builtins          keypad            sharpdisplay      warnings
+busdisplay        keypad_demux      socketpool        watchdog
+busio             locale            ssl               wifi
+canio             math              storage           zlib
+codeop            max3421e          struct
+collections       mdns              supervisor
 Plus any modules on the filesystem
 }

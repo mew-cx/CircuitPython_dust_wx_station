@@ -70,7 +70,7 @@ def GenerateResults(out):
     except:
         pass
 
-    sys_mpy = sys.implementation.mpy
+    sys_mpy = sys.implementation._mpy
     out.write("sys.implementation : {} MPY_VERSION={:d} flags=0x{:02x} arch={:d}\n".format(
         sys.implementation, sys_mpy & 0xff, (sys_mpy >> 8) & 0xff, (sys_mpy >> 10) & 0xff))
 
