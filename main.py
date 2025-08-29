@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2022-2023 Michael Weiblen http://mew.cx/
+# SPDX-FileCopyrightText: 2022-2025 Michael Weiblen http://mew.cx/
 #
 # SPDX-License-Identifier: MIT
 
@@ -29,11 +29,11 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
-__version__ = "0.1.2.9"
+__version__ = "0.2.0.0"
 __repo__ = "https://github.com/mew-cx/CircuitPython_dust_wx_station.git"
-__board_id__ = 'adafruit_feather_esp32s2' # board.board_id
+__board_id__ = 'raspberry_pi_pico_w'      # board.board_id
 __impl_name__ = 'circuitpython'           # sys.implementation.name
-__impl_version__ = (9, 1, 0)              # sys.implementation.version
+__impl_version__ = (9, 2, 8, '')          # sys.implementation.version
 
 import busio
 import time
