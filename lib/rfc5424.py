@@ -1,20 +1,20 @@
-# SPDX-FileCopyrightText: 2022 Michael Weiblen http://mew.cx/
+# SPDX-FileCopyrightText: 2022-2024 Michael E. Weiblen http://mew.cx/
 #
 # SPDX-License-Identifier: MIT
 
-# rfc5424.py
 '''
+rfc5424.py
 This library implements the syslog message formatting specified by RFC5424.
-This does not actually transmit its results by any transport; it is left
-to the caller to send the results by whatever means.
+We do not actually transmit the results by any transport; transmission is
+left to the caller, to send the results by whatever means.
 The formatting specifications are primarily under Section 6 of the RFC.
 https://datatracker.ietf.org/doc/html/rfc5424 : "The Syslog Protocol"
 '''
 
 import time
 
-__version__ = "0.0.0.0"
-__repo__ = "https://github.com/mew-cx/dust_runtime.git"
+__version__ = "1.0.0.1"
+__repo__ = "https://github.com/mew-cx/CircuitPython_rfc5424"
 
 #############################################################################
 # Enumerations
@@ -52,7 +52,7 @@ def FormatSyslog(facility = Facility.USER,
                  msgid = None,
                  structured_data = None,
                  msg = None) :
-    "Sect 6.x"
+    "RFC5424 Section 6.x"
     # Sect 6.2: HEADER MUST be ASCII
     # Sect 9.1: RFC5424's VERSION is "1"
     header = "<{}>1 {} {} {} {} {} ".format(
@@ -70,7 +70,7 @@ def FormatSyslog(facility = Facility.USER,
         structured_data = b"-"
     result += structured_data
 
-    # Sect 6.4: # MSG SHOULD be UTF-8, but MAY be other encoding.
+    # Sect 6.4: MSG SHOULD be UTF-8, but MAY be other encoding.
     # If using UTF-8, MSG MUST start with Unicode BOM.
     # Sect 6 ABNF: MSG is optional.
     #enc = "utf-8-sig"
@@ -78,7 +78,7 @@ def FormatSyslog(facility = Facility.USER,
     if msg:
         result += b" " + msg.encode(enc)
 
-    print(repr(result))    # uncomment for debugging output
+    #print(repr(result))    # uncomment for debugging output
     return result
 
 # vim: set sw=4 ts=8 et ic ai:
