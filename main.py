@@ -31,9 +31,9 @@ See hardware_notes.txt for sensor and interconnection details.
 
 __version__ = "0.2.0.0"
 __repo__ = "https://github.com/mew-cx/CircuitPython_dust_wx_station.git"
-__board_id__ = 'raspberry_pi_pico_w'      # board.board_id
-__impl_name__ = 'circuitpython'           # sys.implementation.name
-__impl_version__ = (9, 2, 8, '')          # sys.implementation.version
+__impl_name__ = 'circuitpython'       # sys.implementation.name
+__impl_version__ = (9, 2, 8, '')      # sys.implementation.version
+__board_id__ = 'raspberry_pi_pico_w'  # board.board_id
 
 import busio
 import time
@@ -41,11 +41,11 @@ import board
 import atexit
 import digitalio
 import gc
+import os
 import sys
-import micropython
-from micropython import const
 import wifi
 import socketpool
+from micropython import const
 
 import neopixel
 import adafruit_ds1307
@@ -55,9 +55,6 @@ import adafruit_mpl3115a2
 from adafruit_sps30.i2c import SPS30_I2C
 
 import rfc5424
-from secrets import secrets
-
-#micropython.opt_level(0)
 
 #############################################################################
 
@@ -114,7 +111,7 @@ class TheApp:
         self.mpl3115 = adafruit_mpl3115a2.MPL3115A2(i2c)  # id 0x60
         self.sps30   = SPS30_I2C(i2c, fp_mode=True)       # id 0x69
 
-        # We only want barometric pressure, don't care about altitude.
+        # We only want barometric pressure; don't care about altitude.
         # mpl3115.sealevel_pressure = 101325
 
     def ConnectToAP(self):
@@ -194,7 +191,7 @@ class TheApp:
 #        self.WriteToSyslog(severity=rfc5424.Severity.NOTICE,
 #            "TheApp.Shutdown")
         self.SetDots()
-        # TODO what other shutdown tasks?
+        # TODO what other shutdown tasks? turn off SPS20, leds, etc
 
 #############################################################################
 # main
