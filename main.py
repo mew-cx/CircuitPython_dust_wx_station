@@ -62,29 +62,29 @@ class TheApp:
     "The top-level application code for the 'dust' weather station"
 
     def __init__(self):
-        self.dots       = None          # string of dotstar LEDs
-        self.ds1307     = None          # battery-backed real-time clock
-        self.htu21d     = None          # humidity/temperature sensor
-        self.mpl3115    = None          # barometric pressure sensor
-        self.sps30      = None          # particulate matter sensor
-        self.ipaddr     = None          # our IP address
-        self.HOST       = const("pink") # syslog server name
-        self.HOST       = const("192.168.1.159") # syslog server name
-        self.PORT       = const(514)    # syslog server port
-        self.NUM_DOTS   = const(4)      # how many LEDs in the dotstar string
-        self.SLEEP_MINS = const(5)      # sleep between measurements [minutes]
+        self._HOST       = const(os.getenv('DUST_SERVER_IPADDR'))
+        self._PORT       = const(os.getenv('DUST_SERVER_PORT'))
+        self._SLEEP_MINS = const(os.getenv('DUST_SLEEP_MINS'))
+
+        self._dots       = None          # string of dotstar LEDs
+        self._ds1307     = None          # battery-backed real-time clock
+        self._htu21d     = None          # humidity/temperature sensor
+        self._mpl3115    = None          # barometric pressure sensor
+        self._sps30      = None          # particulate matter sensor
+        self._ipaddr     = None          # our IP address
 
     def SetDots(self, *args):
         if args:
             for i,val in enumerate(args):
-                self.dots[i] = val
+                self._dots[i] = val
         else:
-            self.dots.fill(0)
+            self._dots.fill(0)
 
     def InitializeDevices(self):
-        # SPI controls the 4-LED dotstar strip
-        self.dots = adafruit_dotstar.DotStar(
-            board.SCK, board.MOSI, self.NUM_DOTS, brightness=0.1)
+        # 4-LED dotstar strip
+        brightness = os.getenv('DUST_LED_BRIGHTNESS') / 100.0
+        self._dots = adafruit_dotstar.DotStar(
+            board.GP26, board.GP27, 4, brightness=brightness)
         self.SetDots()
 
         # Turn off onboard D13 red LED to save power
@@ -106,33 +106,37 @@ class TheApp:
         i2c = busio.I2C(board.SCL, board.SDA, frequency=100000)
 
         # Create the I2C sensor instances
-        self.ds1307  = adafruit_ds1307.DS1307(i2c)        # id 0x68
-        self.htu21d  = adafruit_htu21d.HTU21D(i2c)        # id 0x40
-        self.mpl3115 = adafruit_mpl3115a2.MPL3115A2(i2c)  # id 0x60
-        self.sps30   = SPS30_I2C(i2c, fp_mode=True)       # id 0x69
+        self._ds1307  = adafruit_ds1307.DS1307(i2c)        # id 0x68
+        self._htu21d  = adafruit_htu21d.HTU21D(i2c)        # id 0x40
+        self._mpl3115 = adafruit_mpl3115a2.MPL3115A2(i2c)  # id 0x60
+        self._sps30   = SPS30_I2C(i2c, fp_mode=True)       # id 0x69
 
         # We only want barometric pressure; don't care about altitude.
         # mpl3115.sealevel_pressure = 101325
 
     def ConnectToAP(self):
-        "Connect to wifi access point (AP) with our secret credentials"
-        wifi.radio.connect(secrets["ssid"], secrets["password"])
-        self.ipaddr = wifi.radio.ipv4_address
-        print("our ipaddr", self.ipaddr)
+        "Connect to wifi access point (AP)"
+        print("our MAC",
+            ":".join("{:02x}".format(i) for i in wifi.radio.mac_address))
+        ssid   = os.getenv('CIRCUITPY_WIFI_SSID')
+        passwd = os.getenv('CIRCUITPY_WIFI_PASSWORD')
+        wifi.radio.connect(ssid, passwd)
+        self._ipaddr = wifi.radio.ipv4_address
+        print("our ipaddr", self._ipaddr)
 
     def SocketToSyslog(self):
         pool = socketpool.SocketPool(wifi.radio)
         sock = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
         sock.settimeout(5)      # [seconds]
-        sock.connect((self.HOST, self.PORT))
+        sock.connect((self._HOST, self._PORT))
         return sock
 
     def WriteToSyslog(self, sock, message, severity=rfc5424.Severity.INFO):
         syslog_msg = rfc5424.FormatSyslog(
             facility = rfc5424.Facility.LOCAL3,
             severity = severity,
-            timestamp = rfc5424.FormatTimestamp(self.ds1307.datetime),
-            hostname = self.ipaddr,
+            timestamp = rfc5424.FormatTimestamp(self._ds1307.datetime),
+            hostname = self._ipaddr,
             app_name = "dust",
             msg = message)
         # TODO handle ECONNECT exception
@@ -156,16 +160,16 @@ class TheApp:
 
     def AcquireData(self):
 
-        ts = rfc5424.FormatTimestamp(self.ds1307.datetime)
+        ts = rfc5424.FormatTimestamp(self._ds1307.datetime)
 
         h = "{:0.1f},{:0.1f},{:0.0f},".format(
-            self.htu21d.temperature,
-            self.htu21d.relative_humidity,
-            self.mpl3115.pressure)
+            self._htu21d.temperature,
+            self._htu21d.relative_humidity,
+            self._mpl3115.pressure)
 
-        x = self.sps30.read()
+        x = self._sps30.read()
 #        try:
-#            x = self.sps30.read()
+#            x = self._sps30.read()
 #        except RuntimeError as ex:
 #            print("Cant read SPS30, skipping: " + str(ex))
 #            continue
@@ -181,7 +185,7 @@ class TheApp:
         return result
 
     def Sleep(self):
-        for _ in range(self.SLEEP_MINS):
+        for _ in range(self._SLEEP_MINS):
             time.sleep(60)              # [seconds]
             #app.SetDots(0x008080, 0x008080)
             #time.sleep(0.1)
