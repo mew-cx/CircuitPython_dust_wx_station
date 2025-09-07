@@ -31,9 +31,9 @@ See hardware_notes.txt for sensor and interconnection details.
 
 __version__ = "0.2.0.0"
 __repo__ = "https://github.com/mew-cx/CircuitPython_dust_wx_station.git"
+__board_id__ = 'raspberry_pi_pico_w'  # board.board_id
 __impl_name__ = 'circuitpython'       # sys.implementation.name
 __impl_version__ = (9, 2, 8, '')      # sys.implementation.version
-__board_id__ = 'raspberry_pi_pico_w'  # board.board_id
 
 import busio
 import time
@@ -177,8 +177,8 @@ class TheApp:
             app.SetDots()
 
     def Shutdown(self):
-#        self.WriteToSyslog(severity=rfc5424.Severity.NOTICE,
-#            "TheApp.Shutdown")
+        print("TheApp.Shutdown()")
+#        self.WriteToSyslog(severity=rfc5424.Severity.NOTICE, "shutdown")
         self.SetDots()
         # TODO what other shutdown tasks? turn off SPS20, leds, etc
 
