@@ -84,11 +84,11 @@ class TheApp:
         # 4-LED dotstar strip
         brightness = os.getenv('DUST_LED_BRIGHTNESS') / 100.0
         self._dots = adafruit_dotstar.DotStar(
-            board.GP26, board.GP27, 4, brightness=brightness)
+            clock=board.GP2, data=board.GP3, n=4, brightness=brightness)
         self.SetDots()
 
         # The SPS30 limits the I2C bus rate to maximum of 100kHz
-        i2c = busio.I2C(board.GP21, board.GP20, frequency=100000)
+        i2c = busio.I2C(sda=board.GP0, scl=board.GP1, frequency=100000)
 
         # Create the I2C sensor instances
         self._ds1307  = adafruit_ds1307.DS1307(i2c)        # id 0x68
