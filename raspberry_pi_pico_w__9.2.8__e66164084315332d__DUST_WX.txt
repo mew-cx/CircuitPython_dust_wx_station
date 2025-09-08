@@ -1,17 +1,17 @@
-filename : raspberry_pi_pico_w__0.0.0__e6614103e7975222.txt
+filename : raspberry_pi_pico_w__0.0.0__e66164084315332d.txt
 
 hinv version : 0.0.8.0		repo : https://github.com/mew-cx/CircuitPython_hinv
 board.board_id : raspberry_pi_pico_w
-uid : e6614103e7975222
-len(cpus) : 2 (e6614103e7975222 e6614103e7975222)
+uid : e66164084315332d
+len(cpus) : 2 (e66164084315332d e66164084315332d)
 sys.implementation : (name='circuitpython', version=(9, 2, 8, ''), _machine='Raspberry Pi Pico W with rp2040', _mpy=774) MPY_VERSION=6 flags=0x03 arch=0
 sys.path : ['', '/', '/lib']
 sys.platform : RP2040
 sys.version : 3.4.0; CircuitPython 9.2.8 on 2025-05-28
 sys.modules : {'hinv': <module 'hinv' from 'hinv.py'>}
 os.uname() : (sysname='rp2040', nodename='rp2040', release='9.2.8', version='9.2.8 on 2025-05-28', machine='Raspberry Pi Pico W with rp2040')
-memory : 169.4KiB free of 179.5KiB total (94.4%)
-storage : 79.0KiB free of 490.0KiB total (16.1%)
+memory : 169.3KiB free of 179.4KiB total (94.4%)
+storage : 304.5KiB free of 490.0KiB total (62.1%)
 len(nvm) : 4096
 
 dir(board) :
