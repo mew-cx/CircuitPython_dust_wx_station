@@ -29,7 +29,7 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
-__version__ = "0.2.0.0"
+__version__ = "0.2.0.1"
 __repo__ = "https://github.com/mew-cx/CircuitPython_dust_wx_station.git"
 __board_id__ = 'raspberry_pi_pico_w'  # board.board_id
 __impl_name__ = 'circuitpython'       # sys.implementation.name
@@ -133,7 +133,7 @@ class TheApp:
     def WriteCsvHeaders(self, sock):
         "Write column headers for CSV data via syslog"
         self.WriteToSyslog(sock,
-            '"timestamp","temp[C]","RH[%]","pres[pa]","tps[um]",' \
+            '"timestamp","temp[C]","RH[%]","pres[mbar]","tps[um]",' \
             '"1.0um mass[ug/m^3]","2.5um mass[ug/m^3]","4.0um mass[ug/m^3]",' \
             '"10um mass[ug/m^3]",' \
             '"0.5um count[#/cm^3]","1.0um count[#/cm^3]","2.5um count[#/cm^3]",' \
