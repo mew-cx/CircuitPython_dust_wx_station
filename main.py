@@ -100,6 +100,8 @@ class TheApp:
 
     def ConnectToAP(self):
         "Connect to wifi access point (AP)"
+        print("\n")
+        print("version ", __version__)
         print("our MAC",
             ":".join("{:02x}".format(i) for i in wifi.radio.mac_address))
         ssid   = os.getenv('CIRCUITPY_WIFI_SSID')
@@ -179,6 +181,7 @@ class TheApp:
             x["particles 100um"])
 
         result = '"' + ts + '",' + h + p1 + p2 + p3
+        print(result)
         return result
 
     def Sleep(self):
