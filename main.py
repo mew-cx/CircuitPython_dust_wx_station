@@ -153,7 +153,7 @@ class TheApp:
 
         ts = rfc5424.FormatTimestamp(self._ds1307.datetime)
 
-        h = "{:0.1f},{:0.1f},{:0.0f},".format(
+        h = "{:0.1f},{:0.1f},{:0.1f},".format(
             self._htu21d.temperature,
             self._htu21d.relative_humidity,
             self._mpl3115.pressure)
