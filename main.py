@@ -19,7 +19,7 @@ On the receiving end, pink's syslog is configured to write "local3.info"
 CSV data messages to the pink:/var/www/html/dust/logs/local3.csv file,
 which is accessible from pink's webserver at http://pink/dust/logs/
 Any "local3" messages with different severity (i.e. not "info") will be
-written to a separate pink:/var/log/local3.log file.
+written to the separate pink:/var/log/local3.log file.
 See pink:/etc/rsyslog.d/local3.conf for configuration details.
 
 To prevent those datafiles from growing forever, pink's logrotate periodically
@@ -29,7 +29,7 @@ See pink:/etc/logrotate.d/rsyslog-local3 for configuration details.
 See hardware_notes.txt for sensor and interconnection details.
 '''
 
-__version__ = "0.2.0.1"
+__version__ = "0.2.0.2"
 __repo__ = "https://github.com/mew-cx/CircuitPython_dust_wx_station.git"
 __board_id__ = 'raspberry_pi_pico_w'  # board.board_id
 __impl_name__ = 'circuitpython'       # sys.implementation.name
@@ -47,7 +47,6 @@ import wifi
 import socketpool
 from micropython import const
 
-import neopixel
 import adafruit_ds1307
 import adafruit_dotstar
 import adafruit_htu21d
@@ -66,12 +65,12 @@ class TheApp:
         self._PORT       = const(os.getenv('DUST_SERVER_PORT'))
         self._SLEEP_MINS = const(os.getenv('DUST_SLEEP_MINS'))
 
-        self._dots       = None          # string of dotstar LEDs
-        self._ds1307     = None          # battery-backed real-time clock
-        self._htu21d     = None          # humidity/temperature sensor
-        self._mpl3115    = None          # barometric pressure sensor
-        self._sps30      = None          # particulate matter sensor
-        self._ipaddr     = None          # our IP address
+        self._dots    = None          # string of dotstar LEDs
+        self._ds1307  = None          # battery-backed real-time clock
+        self._htu21d  = None          # humidity/temperature sensor
+        self._mpl3115 = None          # barometric pressure sensor
+        self._sps30   = None          # particulate matter sensor
+        self._ipaddr  = None          # our IP address
 
     def SetDots(self, *args):
         if args:
@@ -87,17 +86,17 @@ class TheApp:
             clock=board.GP2, data=board.GP3, n=4, brightness=brightness)
         self.SetDots()
 
-        # The SPS30 limits the I2C bus rate to maximum of 100kHz
+        # SPS30 limits the I2C bus rate to 100kHz
         i2c = busio.I2C(sda=board.GP0, scl=board.GP1, frequency=100000)
 
-        # Create the I2C sensor instances
+        # Create I2C sensor instances
         self._ds1307  = adafruit_ds1307.DS1307(i2c)        # id 0x68
         self._htu21d  = adafruit_htu21d.HTU21D(i2c)        # id 0x40
         self._mpl3115 = adafruit_mpl3115a2.MPL3115A2(i2c)  # id 0x60
         self._sps30   = SPS30_I2C(i2c, fp_mode=True)       # id 0x69
 
         # We only want barometric pressure; don't care about altitude.
-        # mpl3115.sealevel_pressure = 101325
+        # mpl3115.sealevel_pressure = ?
 
     def ConnectToAP(self):
         "Connect to wifi access point (AP)"
@@ -133,11 +132,18 @@ class TheApp:
     def WriteCsvHeaders(self, sock):
         "Write column headers for CSV data via syslog"
         self.WriteToSyslog(sock,
-            '"timestamp","temp[C]","RH[%]","pres[mbar]","tps[um]",' \
-            '"1.0um mass[ug/m^3]","2.5um mass[ug/m^3]","4.0um mass[ug/m^3]",' \
-            '"10um mass[ug/m^3]",' \
-            '"0.5um count[#/cm^3]","1.0um count[#/cm^3]","2.5um count[#/cm^3]",' \
-            '"4.0um count[#/cm^3]","10um count[#/cm^3]"')
+            '"timestamp","temp[C]",'
+            '"RH[%]","pres[mbar]",'
+            '"tps[um]",'
+            '"1.0um mass[ug/m^3]",'
+            '"2.5um mass[ug/m^3]",'
+            '"4.0um mass[ug/m^3]",'
+            '"10um mass[ug/m^3]",'
+            '"0.5um count[#/cm^3]",'
+            '"1.0um count[#/cm^3]",'
+            '"2.5um count[#/cm^3]",'
+            '"4.0um count[#/cm^3]",'
+            '"10um count[#/cm^3]"')
 
     def WriteCsvData(self, sock, csv_msg):
         "Write sensor data in CSV format via syslog"
@@ -161,10 +167,16 @@ class TheApp:
 
         p1 = "{:0.3f},".format(x["tps"])
         p2 = "{:0.1f},{:0.1f},{:0.1f},{:0.1f},".format(
-            x["pm10 standard"], x["pm25 standard"], x["pm40 standard"], x["pm100 standard"])
+            x["pm10 standard"],
+            x["pm25 standard"],
+            x["pm40 standard"],
+            x["pm100 standard"])
         p3 = "{:0.0f},{:0.0f},{:0.0f},{:0.0f},{:0.0f}".format(
-            x["particles 05um"], x["particles 10um"], x["particles 25um"],
-            x["particles 40um"], x["particles 100um"])
+            x["particles 05um"],
+            x["particles 10um"],
+            x["particles 25um"],
+            x["particles 40um"],
+            x["particles 100um"])
 
         result = '"' + ts + '",' + h + p1 + p2 + p3
         return result
