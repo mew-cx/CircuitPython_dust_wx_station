@@ -1,3 +1,8 @@
+This repo has several branches:
+- main : the runtime environment, meant to be installed on the target device.
+- docs : non-runtime, and often big, files.  Not meant for the device.
+
+
 ::::::::::::::
 dust_clone.txt
 ::::::::::::::
