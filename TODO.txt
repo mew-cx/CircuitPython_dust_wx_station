@@ -1,4 +1,96 @@
 =============================================================================
+2025-11-29
+
+The dust_wx PicoW firmware seems to get jammed for (as yet) unknown reasons.
+
+Operation can be resumed by halting and restarting the CircuitPython firmware;
+i.e.: a hardware reboot of the PicoW does not seem necessary.
+
+System config:
+'dust' : sensor control, data collection, transmits to syslog over WIFI
+  Raspberry Pi Pico W
+  CircuitPython v9.2.8
+  CircuitPython_dust_wx_station v0.2.0.2
+  ipattr 192.168.8.60
+'wopr' : Linux box running ssh server, diagnostics bridge over USB tty to REPL
+  Raspberry Pi Zero W
+  RaspiOS 13 'trixie'
+  ipattr 192.168.8.19
+
+To restart the firmware:
+    ssh mew@wopr  # connect to 'wopr' diagnostics bridge.
+    screen /dev/ttyACM0 115200 # connect to 'dust' REPL over USB
+    # hit control-C to KeyboardInterrupt the stalled firmware
+    # hit control-D to
+
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+###mew### no reports in >60mins
+
+"2025-11-30T09:14:45Z",-7.0,51.3,734.9,0.575,1.0,1.0,1.0,1.0,7,8,8,8,8
+###mew### hit CTRL-C
+Traceback (most recent call last):
+  File "code.py", line 4, in <module>
+  File "main.py", line 227, in <module>
+  File "main.py", line 160, in AcquireData
+  File "adafruit_htu21d.py", line 142, in relative_humidity
+  File "adafruit_htu21d.py", line 128, in _data
+KeyboardInterrupt:
+192.168.8.60 | 128@adafruit_htu21d.py KeyboardInterrupt | 9.2.8
+Code done running.
+
+Press any key to enter the REPL. Use CTRL-D to reload.
+###mew### hit CTRL-D
+soft reboot
+
+Auto-reload is on. Simply save files over USB to run them or enter REPL to disable.
+code.py output:
+192.168.8.60 | code.py | 9.2.8
+Traceback (most recent call last):
+  File "code.py", line 4, in <module>
+  File "main.py", line 208, in <module>
+  File "main.py", line 90, in InitializeDevices
+RuntimeError: No pull up found on SDA or SCL; check your wiring
+192.168.8.60 | 90@main.py RuntimeError | 9.2.8
+Code done running.
+
+Press any key to enter the REPL. Use CTRL-D to reload.
+
+-----------------------------------------------------------------------------
+
+mew@wopr:github.com !8 0 $ screen /dev/ttyACM0 115200
+Traceback (most recent call last):
+  File "code.py", line 4, in <module>
+  File "main.py", line 240, in <module>
+  File "main.py", line 189, in Sleep
+KeyboardInterrupt:
+192.168.8.60 | 189@main.py KeyboardInterrupt | 9.2.8
+Code done running.
+
+Press any key to enter the REPL. Use CTRL-D to reload.
+192.168.8.60 | REPL | 9.2.8
+Adafruit CircuitPython 9.2.8 on 2025-05-28; Raspberry Pi Pico W with rp2040
+>>>
+192.168.8.60 | Done | 9.2.8
+soft reboot
+
+Auto-reload is on. Simply save files over USB to run them or enter REPL to disable.
+code.py output:
+192.168.8.60 | code.py | 9.2.8
+
+version  0.2.0.2
+our MAC 28:cd:c1:0d:c1:9b
+our ipaddr 192.168.8.60
+"2025-11-30T01:43:51Z",-6.2,60.6,735.5,0.776,5.2,12.6,18.3,19.4,20,34,41,43,43
+
+
+
+
+
+=============================================================================
+=============================================================================
+=============================================================================
 2025-08-29
 migrating from feather_esp32s2 to raspberry_pi_w
 migrating to circuitpython 9.2.8
