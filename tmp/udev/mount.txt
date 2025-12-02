@@ -1,0 +1,2 @@
+#sudo mount -t vfat -o uid=1000,gid=1000 /dev/sdi1 /mnt/dust
+sudo mount -t vfat -o uid=1000,gid=1000,dmask=007,fmask=117 /dev/sdh1 /mnt/dust
