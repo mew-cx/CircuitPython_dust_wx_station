@@ -13,7 +13,6 @@ System Volume Information/
 $RECYCLE.BIN/
 __pycache__/
 
-*.log
 *.swp
 *~
 
