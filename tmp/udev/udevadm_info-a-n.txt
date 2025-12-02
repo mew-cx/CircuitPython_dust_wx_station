@@ -1,6 +1,6 @@
 Script started on 2025-12-02 05:03:32-07:00 [TERM="screen.putty-256color" TTY="/dev/pts/3" COLUMNS="170" LINES="43"]
-[?2004l[?2004h[30;42mmew@wopr:CircuitPython_dust_wx_station !4 127 $[0m mewmewudevadm info -a -n /dev/ttyACM0 |cat 
-[?2004l
+mmew@wopr:CircuitPython_dust_wx_station !4 127 $ udevadm info -a -n /dev/ttyACM0 |cat 
+
 Udevadm info starts with the device specified by the devpath and then
 walks up the chain of parent devices. It prints for every device
 found, all possible attributes in the udev rules key format.
@@ -193,8 +193,6 @@ and the attributes from one single parent device.
     ATTRS{power/runtime_active_time}=="0"
     ATTRS{power/runtime_status}=="unsupported"
     ATTRS{power/runtime_suspended_time}=="0"
-[?2004h[30;42mmew@wopr:CircuitPython_dust_wx_station !5 0 $[0m 
-[?2004l[?2004h[30;42mmew@wopr:CircuitPython_dust_wx_station !5 0 $[0m 
 exit
 
 Script done on 2025-12-02 05:04:22-07:00 [COMMAND_EXIT_CODE="0"]
