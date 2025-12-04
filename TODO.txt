@@ -1,4 +1,31 @@
 =============================================================================
+2025-12-03
+
+192.168.8.60 | REPL | 9.2.8
+192.168.8.60 | Done | 9.2.8
+soft reboot
+
+Auto-reload is on. Simply save files over USB to run them or enter REPL to disable.
+code.py output:
+192.168.8.60 | code.py | 9.2.8
+Traceback (most recent call last):
+  File "code.py", line 4, in <module>
+  File "main.py", line 208, in <module>
+  File "main.py", line 90, in InitializeDevices
+RuntimeError: No pull up found on SDA or SCL; check your wiring
+192.168.8.60 | 90@main.py RuntimeError | 9.2.8
+Code done running.
+
+Press any key to enter the REPL. Use CTRL-D to reload.
+192.168.8.60 | REPL | 9.2.8
+Adafruit CircuitPython 9.2.8 on 2025-05-28; Raspberry Pi Pico W with rp2040
+>>> import i2c_scan
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "i2c_scan.py", line 8, in <module>
+RuntimeError: No pull up found on SDA or SCL; check your wiring
+
+=============================================================================
 2025-11-29
 
 The dust_wx PicoW firmware seems to get jammed for (as yet) unknown reasons.
