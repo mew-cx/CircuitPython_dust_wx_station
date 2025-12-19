@@ -3,10 +3,12 @@
 # Tweaks for this repo to work across platforms
 
 [core]
+	# on Windows, ignore execute permissions
 	fileMode = false
 
 [safe]
-#	directory = *
+	# Windows: ignore repo ownership
+	directory = *
 
 # vim: set noet ic ai:
 
