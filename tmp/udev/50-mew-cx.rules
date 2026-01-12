@@ -1,0 +1,36 @@
+# File: /etc/udev/rules.d/50-mew-cx.rules
+# http://mew.cx/
+
+# Reload and rebind udev rules with:
+#       sudo udevadm control --reload && sudo udevadm trigger -v
+
+# CircuitPython REPL
+SUBSYSTEM=="tty", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="8012", ATTRS{product}=="ItsyBitsy M0 Express", MODE:="0666", SYMLINK+="cp_repl"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="802c", ATTRS{product}=="ItsyBitsy M4 Express", MODE:="0666", SYMLINK+="cp_repl"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="80ec", ATTRS{product}=="Adafruit Feather ESP32S2", MODE:="0666", SYMLINK+="cp_repl"
+#SUBSYSTEM=="tty", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="000f", ATTRS{product}=="ItsyBitsy M0 Express", MODE:="0666", SYMLINK+="itsyboot"
+#KERNEL=="sd?", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="000f", ATTRS{product}=="ItsyBitsy M0 Express", SYMLINK+="itsyboot"
+
+# dust weather station
+SUBSYSTEM=="tty", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="8120", ATTRS{product}=="Pico W", ATTRS{serial}=="E66164084315332D", MODE:="0666", SYMLINK+="repl/dust"
+
+# ExCamera SPIDriver - http://spidriver.com/
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", ATTRS{serial}=="DO00QSH8", MODE:="0666", SYMLINK+="spidriver"
+
+# Adafruit PiUART - https://www.adafruit.com/product/3589
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", ATTRS{serial}=="0160EFD3", MODE:="0666", SYMLINK+="piuart"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", ATTRS{serial}=="017B8DD2", MODE:="0666", SYMLINK+="piuart"
+
+# RaspPi0W, proplabel 3028, serial 55c91ad9
+#SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", ATTRS{serial}=="0160EFD3", MODE:="0666", SYMLINK+="raspi"
+
+# ATTRS{manufacturer}=="Vuzix Coporation"
+SUBSYSTEM=="input", ATTRS{idVendor}=="1bae", ATTRS{idProduct}=="019c", MODE:="0666", SYMLINK+="iwear"
+SUBSYSTEM=="input", ATTRS{idVendor}=="1bae", ATTRS{idProduct}=="019d", MODE:="0666", SYMLINK+="iwear_hmd"
+
+# For dfu-util access to tomu without sudo:
+# https://tomu.im/update
+# https://groups.google.com/forum/#!searchin/tomu-discuss/udev|sort:date/tomu-discuss/iziYG41oLcs/5IfBiaepCAAJ
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="70b1", MODE:="0666"
+
+# vim: set sw=4 ts=8 et ic ai:

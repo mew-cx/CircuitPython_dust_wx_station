@@ -1,0 +1,218 @@
+2026-01-05
+
+===========================
+CMD = udevadm info --attribute-walk /dev/sda1
+===========================
+
+  looking at device        '/devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.2/host0/target0:0:0/0:0:0:0/block/sda/sda1':
+    KERNEL=="sda1"
+>   SUBSYSTEM=="block"
+    DRIVER==""
+    ATTR{partition}=="1"
+    ATTR{ro}=="0"
+    ATTR{size}=="1016"
+
+  looking at parent device '/devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.2/host0/target0:0:0/0:0:0:0/block/sda':
+    KERNELS=="sda"
+    SUBSYSTEMS=="block"
+    DRIVERS==""
+    ATTRS{removable}=="1"
+    ATTRS{ro}=="0"
+    ATTRS{size}=="1017"
+
+  looking at parent device '/devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.2/host0/target0:0:0/0:0:0:0':
+
+  looking at parent device '/devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.2/host0/target0:0:0':
+
+  looking at parent device '/devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.2/host0':
+
+  looking at parent device '/devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.2':
+>   SUBSYSTEMS=="usb"
+>   DRIVERS=="usb-storage"
+>   ATTRS{interface}=="CircuitPython Mass Storage"
+
+  looking at parent device '/devices/platform/soc/20980000.usb/usb1/1-1':
+    ATTRS{idProduct}=="8120"
+    ATTRS{idVendor}=="239a"
+    ATTRS{manufacturer}=="Raspberry Pi"
+    ATTRS{product}=="Pico W"
+    ATTRS{serial}=="E66164084315332D"
+
+  looking at parent device '/devices/platform/soc/20980000.usb/usb1':
+    ATTRS{idProduct}=="0002"
+    ATTRS{idVendor}=="1d6b"
+    ATTRS{manufacturer}=="Linux 6.12.47+rpt-rpi-v6 dwc_otg_hcd"
+    ATTRS{product}=="DWC OTG Controller"
+
+  looking at parent device '/devices/platform/soc/20980000.usb':
+
+  looking at parent device '/devices/platform/soc':
+
+  looking at parent device '/devices/platform':
+
+===========================
+CMD = udevadm info --query=all /dev/sda1
+===========================
+P: /devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.2/host0/target0:0:0/0:0:0:0/block/sda/sda1
+M: sda1
+R: 1
+J: b8:1
+U: block
+T: partition
+D: b 8:1
+N: sda1
+L: 0
+S: disk/by-path/platform-20980000.usb-usb-0:1:1.2-scsi-0:0:0:0-part/by-uuid/B990-3C1C
+S: disk/by-label/DUST_WX
+S: disk/by-diskseq/26-part1
+S: disk/by-path/platform-20980000.usb-usb-0:1:1.2-scsi-0:0:0:0-part1
+S: disk/by-path/platform-20980000.usb-usbv2-0:1:1.2-scsi-0:0:0:0-part1
+S: disk/by-uuid/B990-3C1C
+S: disk/by-id/usb-Raspberr_Pico_W_E66164084315332D-0:0-part1
+S: disk/by-path/platform-20980000.usb-usb-0:1:1.2-scsi-0:0:0:0-part/by-label/DUST_WX
+S: disk/by-path/platform-20980000.usb-usb-0:1:1.2-scsi-0:0:0:0-part/by-partnum/1
+Q: 26
+E: DEVPATH=/devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.2/host0/target0:0:0/0:0:0:0/block/sda/sda1
+E: DEVNAME=/dev/sda1
+E: DEVTYPE=partition
+E: DISKSEQ=26
+E: PARTN=1
+E: MAJOR=8
+E: MINOR=1
+E: SUBSYSTEM=block
+E: USEC_INITIALIZED=10917140
+E: ID_BUS=usb
+E: ID_MODEL=Pico_W
+E: ID_MODEL_ENC=Pico\x20W\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+E: ID_MODEL_ID=8120
+E: ID_SERIAL=Raspberr_Pico_W_E66164084315332D-0:0
+E: ID_SERIAL_SHORT=E66164084315332D
+E: ID_VENDOR=Raspberr
+E: ID_VENDOR_ENC=Raspberr
+E: ID_VENDOR_ID=239a
+E: ID_REVISION=1.0
+E: ID_TYPE=disk
+E: ID_INSTANCE=0:0
+E: ID_USB_MODEL=Pico_W
+E: ID_USB_MODEL_ENC=Pico\x20W\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20
+E: ID_USB_MODEL_ID=8120
+E: ID_USB_SERIAL=Raspberr_Pico_W_E66164084315332D-0:0
+E: ID_USB_SERIAL_SHORT=E66164084315332D
+E: ID_USB_VENDOR=Raspberr
+E: ID_USB_VENDOR_ENC=Raspberr
+E: ID_USB_VENDOR_ID=239a
+E: ID_USB_REVISION=1.0
+E: ID_USB_TYPE=disk
+E: ID_USB_INSTANCE=0:0
+E: ID_USB_INTERFACES=:020200:0a0000:080650:030000:010100:010300:
+E: ID_USB_INTERFACE_NUM=02
+E: ID_USB_DRIVER=usb-storage
+E: ID_PATH_WITH_USB_REVISION=platform-20980000.usb-usbv2-0:1:1.2-scsi-0:0:0:0
+E: ID_PATH=platform-20980000.usb-usb-0:1:1.2-scsi-0:0:0:0
+E: ID_PATH_TAG=platform-20980000_usb-usb-0_1_1_2-scsi-0_0_0_0
+E: ID_PART_TABLE_TYPE=dos
+E: ID_FOR_SEAT=block-platform-20980000_usb-usb-0_1_1_2-scsi-0_0_0_0
+E: ID_FS_LABEL=DUST_WX
+E: ID_FS_LABEL_ENC=DUST_WX
+E: ID_FS_UUID=B990-3C1C
+E: ID_FS_UUID_ENC=B990-3C1C
+E: ID_FS_VERSION=FAT12
+E: ID_FS_BLOCKSIZE=512
+E: ID_FS_SIZE=520192
+E: ID_FS_TYPE=vfat
+E: ID_FS_USAGE=filesystem
+E: ID_PART_ENTRY_SCHEME=dos
+E: ID_PART_ENTRY_TYPE=0x6
+E: ID_PART_ENTRY_NUMBER=1
+E: ID_PART_ENTRY_OFFSET=1
+E: ID_PART_ENTRY_SIZE=1016
+E: ID_PART_ENTRY_DISK=8:0
+E: DEVLINKS=/dev/disk/by-path/platform-20980000.usb-usb-0:1:1.2-scsi-0:0:0:0-part/by-uuid/B990-3C1C /dev/disk/by-label/DUST_WX /dev/disk/by-diskseq/26-part1 /dev/disk/by-path/platform-20980000.usb-usb-0:1:1.2-scsi-0:0:0:0-part1 /dev/disk/by-path/platform-20980000.usb-usbv2-0:1:1.2-scsi-0:0:0:0-part1 /dev/disk/by-uuid/B990-3C1C /dev/disk/by-id/usb-Raspberr_Pico_W_E66164084315332D-0:0-part1 /dev/disk/by-path/platform-20980000.usb-usb-0:1:1.2-scsi-0:0:0:0-part/by-label/DUST_WX /dev/disk/by-path/platform-20980000.usb-usb-0:1:1.2-scsi-0:0:0:0-part/by-partnum/1
+E: TAGS=:uaccess:systemd:seat:
+E: CURRENT_TAGS=:uaccess:systemd:seat:
+
+===========================
+CMD = udevadm info --attribute-walk /dev/ttyACM0
+===========================
+
+  looking at device        '/devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.0/tty/ttyACM0':
+    KERNEL=="ttyACM0"
+>   SUBSYSTEM=="tty"
+    DRIVER==""
+
+  looking at parent device '/devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.0':
+>   SUBSYSTEMS=="usb"
+>   DRIVERS=="cdc_acm"
+>   ATTRS{interface}=="CircuitPython CDC control"
+
+  looking at parent device '/devices/platform/soc/20980000.usb/usb1/1-1':
+    ATTRS{idProduct}=="8120"
+    ATTRS{idVendor}=="239a"
+    ATTRS{manufacturer}=="Raspberry Pi"
+    ATTRS{product}=="Pico W"
+    ATTRS{serial}=="E66164084315332D"
+
+  looking at parent device '/devices/platform/soc/20980000.usb/usb1':
+    ATTRS{idProduct}=="0002"
+    ATTRS{idVendor}=="1d6b"
+    ATTRS{manufacturer}=="Linux 6.12.47+rpt-rpi-v6 dwc_otg_hcd"
+    ATTRS{product}=="DWC OTG Controller"
+
+  looking at parent device '/devices/platform/soc/20980000.usb':
+
+  looking at parent device '/devices/platform/soc':
+
+  looking at parent device '/devices/platform':
+
+===========================
+CMD = udevadm info --query=all /dev/ttyACM0
+===========================
+P: /devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.0/tty/ttyACM0
+M: ttyACM0
+R: 0
+J: c166:0
+U: tty
+D: c 166:0
+N: ttyACM0
+L: 0
+S: serial/by-path/platform-20980000.usb-usbv2-0:1:1.0
+S: serial/by-path/platform-20980000.usb-usb-0:1:1.0
+S: serial/by-id/usb-Raspberry_Pi_Pico_W_E66164084315332D-if00
+E: DEVPATH=/devices/platform/soc/20980000.usb/usb1/1-1/1-1:1.0/tty/ttyACM0
+E: DEVNAME=/dev/ttyACM0
+E: MAJOR=166
+E: MINOR=0
+E: SUBSYSTEM=tty
+E: USEC_INITIALIZED=51772385
+E: ID_BUS=usb
+E: ID_MODEL=Pico_W
+E: ID_MODEL_ENC=Pico\x20W
+E: ID_MODEL_ID=8120
+E: ID_SERIAL=Raspberry_Pi_Pico_W_E66164084315332D
+E: ID_SERIAL_SHORT=E66164084315332D
+E: ID_VENDOR=Raspberry_Pi
+E: ID_VENDOR_ENC=Raspberry\x20Pi
+E: ID_VENDOR_ID=239a
+E: ID_REVISION=0100
+E: ID_TYPE=generic
+E: ID_USB_MODEL=Pico_W
+E: ID_USB_MODEL_ENC=Pico\x20W
+E: ID_USB_MODEL_ID=8120
+E: ID_USB_SERIAL=Raspberry_Pi_Pico_W_E66164084315332D
+E: ID_USB_SERIAL_SHORT=E66164084315332D
+E: ID_USB_VENDOR=Raspberry_Pi
+E: ID_USB_VENDOR_ENC=Raspberry\x20Pi
+E: ID_USB_VENDOR_ID=239a
+E: ID_USB_REVISION=0100
+E: ID_USB_TYPE=generic
+E: ID_USB_INTERFACES=:020200:0a0000:080650:030000:010100:010300:
+E: ID_USB_INTERFACE_NUM=00
+E: ID_USB_DRIVER=cdc_acm
+E: ID_VENDOR_FROM_DATABASE=Adafruit
+E: ID_PATH_WITH_USB_REVISION=platform-20980000.usb-usbv2-0:1:1.0
+E: ID_PATH=platform-20980000.usb-usb-0:1:1.0
+E: ID_PATH_TAG=platform-20980000_usb-usb-0_1_1_0
+E: ID_FOR_SEAT=tty-platform-20980000_usb-usb-0_1_1_0
+E: DEVLINKS=/dev/serial/by-path/platform-20980000.usb-usbv2-0:1:1.0 /dev/serial/by-path/platform-20980000.usb-usb-0:1:1.0 /dev/serial/by-id/usb-Raspberry_Pi_Pico_W_E66164084315332D-if00
+E: TAGS=:uaccess:seat:systemd:
+E: CURRENT_TAGS=:uaccess:seat:systemd:

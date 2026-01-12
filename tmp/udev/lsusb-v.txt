@@ -1,55 +1,4 @@
-Couldn't open device, some information will be missing
-
-Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-Negotiated speed: High Speed (480Mbps)
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass            9 Hub
-  bDeviceSubClass         0 [unknown]
-  bDeviceProtocol         1 Single TT
-  bMaxPacketSize0        64
-  idVendor           0x1d6b Linux Foundation
-  idProduct          0x0002 2.0 root hub
-  bcdDevice            6.12
-  iManufacturer           3 Linux 6.12.47+rpt-rpi-v6 dwc_otg_hcd
-  iProduct                2 DWC OTG Controller
-  iSerial                 1 20980000.usb
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x0019
-    bNumInterfaces          1
-    bConfigurationValue     1
-    iConfiguration          0 
-    bmAttributes         0xe0
-      Self Powered
-      Remote Wakeup
-    MaxPower                0mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           1
-      bInterfaceClass         9 Hub
-      bInterfaceSubClass      0 [unknown]
-      bInterfaceProtocol      0 Full speed (or root) hub
-      iInterface              0 
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0004  1x 4 bytes
-        bInterval              12
-
-Bus 001 Device 004: ID 239a:8120 Adafruit Pico W
+Bus 001 Device 002: ID 239a:8120 Adafruit Pico W
 Negotiated speed: Full Speed (12Mbps)
 Device Descriptor:
   bLength                18
@@ -231,9 +180,7 @@ Device Descriptor:
       AudioControl Interface Descriptor:
         bLength                 9
         bDescriptorType        36
-        bDescriptorSubtype      1 (HEADER)can't get device qualifier: Resource temporarily unavailable
-can't get debug descriptor: Resource temporarily unavailable
-
+        bDescriptorSubtype      1 (HEADER)
         bcdADC               1.00
         wTotalLength       0x0009
         bInCollection           1
