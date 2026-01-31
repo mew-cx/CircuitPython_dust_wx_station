@@ -1,3 +1,42 @@
+
+=============================================================================
+just discovered...
+ 01:51:33 up 42 days,  8:08,  3 users,  load average: 0.16, 0.17, 0.11
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU  WHAT
+mew      pts/0    192.168.8.10     01:46    5.00s  0.75s  0.02s screen -RdU
+
+"2026-01-26T09:21:43Z",-14.0,36.8,736.0,0.564,0.7,0.7,0.7,0.7,5,5,5,5,5
+"2026-01-26T09:26:43Z",-13.9,36.3,736.2,0.558,0.7,0.7,0.7,0.7,5,5,5,5,5
+"2026-01-26T09:31:44Z",-13.8,35.0,736.4,0.553,0.5,0.5,0.5,0.5,3,4,4,4,4
+"2026-01-26T09:36:45Z",-13.9,37.4,736.3,0.563,0.8,0.8,0.8,0.8,5,6,6,6,6
+"2026-01-26T09:41:45Z",-13.9,37.1,736.4,0.614,1.3,1.4,1.5,1.5,9,10,10,10,10
+"2026-01-26T09:46:46Z",-13.8,34.6,736.2,0.603,0.7,0.7,0.8,0.8,4,5,5,5,5
+Traceback (most recent call last):
+  File "code.py", line 4, in <module>
+  File "main.py", line 227, in <module>
+  File "main.py", line 160, in AcquireData
+  File "adafruit_htu21d.py", line 139, in relative_humidity
+  File "adafruit_htu21d.py", line 169, in measurement
+  File "adafruit_htu21d.py", line 118, in _command
+OSError: [Errno 19] No such device
+
+Code done running.
+
+Adafruit CircuitPython 9.2.8 on 2025-05-28; Raspberry Pi Pico W with rp2040
+>>>192.168.8.60 | REPL | 9.2.8
+192.168.8.60 | Done | 9.2.8192.168.8.60 | Done | 9.2.8soft reboot
+
+Auto-reload is on. Simply save files over USB to run them or enter REPL to disable.
+code.py output:
+192.168.8.60 | code.py | 9.2.8192.168.8.60 | code.py | 9.2.8
+
+                                                            version  0.2.0.2
+our MAC 28:cd:c1:0d:c1:9b
+our ipaddr 192.168.8.60
+"2026-01-31T08:50:09Z",-0.9,57.8,739.6,1.630,0.0,0.0,0.0,0.0,0,0,0,0,0
+
+=============================================================================
+
 Adafruit CircuitPython 7.3.2 on 2022-07-20; Adafruit Feather ESP32S2 with ESP32S2
 
 b'<158>1 2022-08-16T09:45:16Z 192.168.1.65 dust - - - "2022-08-16T09:45:16Z",13.0,78.7,74283,0.462,1.5,1.6,1.6,1.6,10,12,12,12,12'
